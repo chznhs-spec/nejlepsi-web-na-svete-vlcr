@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="cs">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hlavní stránka | VLČR</title>
+    <link rel="icon" type="image/png" href="logo_VLCR.png" />
+    <link rel="stylesheet" href="styles.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <section class="menu">
+      <a
+        href="index.html"
+        class="horizontal-flex"
+        style="justify-content: flex-start"
+      >
+        <img src="logo_VLCR.png" alt="Logo VLČR" class="logo" />
+        <p class="logo-placeholder">Vzdělaný lid České republiky</p>
+      </a>
+
+      <section class="menu-text">
+        <a href="projekt.html" class="menu-item">Projekty</a>
+        <a href="novinki.html" class="menu-item">Novinky</a>
+        <a href="nastym.html" class="menu-item">Náš tým</a>
+        <a href="kontakt.html" class="menu-item">Kontakt</a>
+      </section>
+    </section>
+    <section class="content" style="margin-top: 10px">
+      <section class="vertical-flex">
+        <h1 style="opacity: 0.8; font-size: 10cap">Kontakt</h1>
+        <main class="horizontal-2grid">
+          <div class="vertical-flex">
+            <form action="https://formsubmit.co/chznhs@seznam.cz" method="POST">
+              <!-- Skryté nastavení -->
+              <input type="hidden" name="_captcha" value="true" />
+              <input type="hidden" name="_template" value="table" />
+              <input
+                type="hidden"
+                name="_next"
+                value="https://tvoje-stranka.cz/dekujeme.html"
+              />
+
+              <!-- Viditelné pole -->
+              <label>Jméno</label>
+              <input type="text" name="name" required />
+
+              <label>Email</label>
+              <input type="email" name="email" required />
+
+              <label>Zpráva</label>
+              <textarea name="message" rows="5" required></textarea>
+
+              <button class="button-17" type="submit">Odeslat</button>
+            </form>
+          </div>
+          <p class="gray-text">
+            Napište nám vzkaz přes náš systém. Následně Vám přiřadíme jednoho z
+            našich členů, který s Vámi bude nadále komunikovat.
+          </p>
+        </main>
+      </section>
+    </section>
+    <div class="botnik">
+      <footer class="botnik">
+        © 2025 - 2026 VLČR — Vzdělaný lid České republiky
+      </footer>
+    </div>
+  </body>
+</html>

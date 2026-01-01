@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="cs">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hlavní stránka | VLČR</title>
+    <link rel="icon" type="image/png" href="logo_VLCR.png" />
+    <link rel="stylesheet" href="styles.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <section class="menu">
+      <a
+        href="index.html"
+        class="horizontal-flex"
+        style="justify-content: flex-start"
+      >
+        <img src="logo_VLCR.png" alt="Logo VLČR" class="logo" />
+        <p class="logo-placeholder">Vzdělaný lid České republiky</p>
+      </a>
+
+      <section class="menu-text">
+        <a href="projekt.html" class="menu-item">Projekty</a>
+        <a href="novinki.html" class="menu-item">Novinky</a>
+        <a href="nastym.html" class="menu-item">Náš tým</a>
+        <a href="kontakt.html" class="menu-item">Kontakt</a>
+      </section>
+    </section>
+    <section class="content" style="margin-top: 10px">
+      <section class="vertical-flex">
+        <h1 style="opacity: 0.8; font-size: 10cap">Projekty</h1>
+        <div class="horizontal-flex">
+          <div class="slider" style="margin-bottom: 50px">
+            <div class="slides">
+              <div class="slide">
+                <img src="foto3-divadlo.jpeg" alt="Obrázek 1" />
+              </div>
+              <div class="slide">
+                <img src="foto4.jpeg" alt="Obrázek 2" />
+              </div>
+              <div class="slide">
+                <img src="foto1.jpeg" alt="Obrázek 3" />
+              </div>
+              <div class="slide">
+                <img src="foto2.jpeg" alt="Obrázek 4" />
+              </div>
+            </div>
+          </div>
+
+          <div class="container">
+            <div class="container2">
+              <p style="min-width: 600px; align-self: baseline">
+                Na této stránce najdete přehled našich aktuálních i minulých
+                projektů členů VLČR. Naše projekty pokrývají širokou škálu
+                oblastí, od návrhu automatizovaného vodního loutkového divadla
+                po komplexní robotické systémy. Každý projekt je výsledkem
+                spolupráce, kreativity a technických dovedností našich členů.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <div class="separator-full"></div>
+      <section class="vertical-flex">
+        <div class="horizontal-flex">
+          <div class="carousel2">
+            <div class="slides2" id="slides2">
+              <div class="slide2">
+                <img src="foto3-divadlo.jpeg" />
+              </div>
+              <div class="slide2">
+                <img src="foto5-divadlo.jpeg" />
+              </div>
+              <div class="slide2">
+                <img src="foto6-divadlo.jpeg" />
+              </div>
+              <div class="slide2">
+                <img src="divadlo.jpeg" />
+              </div>
+            </div>
+
+            <div class="arrow2 left2" id="prev2">&#10094;</div>
+            <div class="arrow2 right2" id="next2">&#10095;</div>
+          </div>
+
+          <script>
+            const slides2 = document.getElementById("slides2");
+            const total2 = slides2.children.length;
+            let index2 = 0;
+
+            function updateSlide2() {
+              slides2.style.transform = `translateX(${-index2 * 100}%)`;
+            }
+
+            document.getElementById("next2").onclick = () => {
+              index2 = (index2 + 1) % total2;
+              updateSlide2();
+            };
+
+            document.getElementById("prev2").onclick = () => {
+              index2 = (index2 - 1 + total2) % total2;
+              updateSlide2();
+            };
+          </script>
+
+          <div class="container">
+            <div class="container2">
+              <h1>
+                <em style="opacity: 0.8; text-align: center">
+                  Automatizace tradičního vietnamského vodního loutkového
+                  divadla</em
+                >
+              </h1>
+              <div class="separator"></div>
+              <p style="min-width: 600px">
+                Projekt propojuje tradiční vietnamské vodní loutkové divadlo s
+                moderní technikou. Členové VLČR vyvinuli mechanický systém pro
+                ovládání loutek ve vodě, doplněný o barevné osvětlení, imerzivní
+                ozvučení a nechybí ani speciální efekty. Celý systém je řízen
+                mikropočítačem Arduino Uno, který zajišťuje koordinaci pohybů a
+                průběh představení při zachování autentické atmosféry.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="separator-full" style="margin: 50px"></div>
+        <div class="horizontal-flex">
+          <div class="container">
+            <div class="container2">
+              <h1>
+                <em style="opacity: 0.8"> Robot "Mantinel"</em>
+              </h1>
+              <div class="separator"></div>
+              <p style="min-width: 600px">
+                Jedním z našich projektů je vývoj vzdělávacího open-source
+                robota "Mantinel", který pomáhá ve vdělávání v oblasti
+                autonomního řízení robotů v prostředdí plým překážek. Vzdálenost
+                měří pomocí ultrazvukového senzoru a celý systém řídí vlastní
+                „mozek“ v podobě plošného spoje, který byl navržen speciálně pro
+                robota Mantinel. Více informací
+                <a href="https://robinsafarik.cz" target="_blank">zde</a>
+              </p>
+            </div>
+          </div>
+          <img src="foto4.jpeg" alt="Obrázek projektu 'Mantinel'" width="30%" />
+        </div>
+        <div class="separator-full" style="margin: 50px"></div>
+        <div class="horizontal-flex">
+          <img
+            src="pocitac.jpeg"
+            alt="Počítač"
+            style="width: 30%; object-fit: cover; height: 20vw"
+          />
+
+          <div class="container">
+            <div class="container2">
+              <h1>
+                <em style="opacity: 0.8"> Druhý život E-odpadu </em>
+              </h1>
+              <div class="separator"></div>
+              <p style="min-width: 600px">
+                Hugo Albrecht, dlouholetý člen VLČR, se věnuje stavbě počítače z
+                vyřazených dílů nalezených u popelnic. Projekt je názornou
+                ukázkou toho, že i z jednoduchých a zdánlivě nepotřebných
+                součástek lze díky chytrému přemýšlení sestavit funkční počítač
+                a dát elektronickému odpadu druhý život.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="separator-full" style="margin: 50px"></div>
+        <div class="vertical-flex">
+          <div class="container">
+            <div class="container2">
+              <h1>
+                <em style="opacity: 0.8">Propagační předměty</em>
+              </h1>
+              <div class="separator"></div>
+              <p style="width: 50vw">
+                Vzdělaný lid České republiky vyrábí vlastní propagační předměty,
+                od tužek a přívěsků až po bábovičky a stavebnice. Tyto předměty
+                pravidelně rozdáváme na akcích a slouží k propagaci technického
+                vzdělávání a činnosti spolku. Vybrané modely je také možné
+                stáhnout z našeho profilu na platformě Printables.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="horizontal-flex">
+          <img
+            class="propagace"
+            src="fotoPredmety.jpeg"
+            alt="Propagační předměty VLČR"
+            width="30%"
+          />
+          <img
+            class="propagace"
+            src="fotoCukrovi.jpeg"
+            alt="Vykrajovátka VLČR"
+            width="30%"
+          />
+          <img
+            class="propagace"
+            src="stavebnice.jpeg"
+            alt="Stavebnice VLČR"
+            width="30%"
+          />
+        </div>
+      </section>
+    </section>
+    <div class="botnik">
+      <footer class="botnik">
+        © 2025 - 2026 VLČR — Vzdělaný lid České republiky
+      </footer>
+    </div>
+  </body>
+</html>

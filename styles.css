@@ -1,0 +1,1025 @@
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.menu {
+  top: 0;
+  position: fixed;
+  display: flex;
+  flex-direction: row;
+  background: linear-gradient(
+    90deg,
+    rgb(255, 255, 255),
+    rgba(235, 254, 255, 0.736)
+  );
+  border-bottom: 5px solid rgba(0, 66, 81, 0.056);
+  height: fit-content;
+  width: 100%;
+  z-index: 999;
+}
+.menu-text {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: right;
+  padding-right: 1vw;
+  width: 100%;
+}
+.menu-item {
+  position: relative;
+  margin: 10px;
+  padding: 10px;
+  font-family: Roboto, Arial, Helvetica, sans-serif;
+  font-size: xx-large;
+  font-weight: 300;
+  color: rgb(0, 0, 0) !important;
+  text-decoration: none;
+}
+.content {
+  padding-top: 120px;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  flex-direction: column;
+}
+/* Podtržení – výchozí stav */
+.menu-item::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 0;
+  height: 3px;
+  background: black;
+  transform: translateX(-50%);
+  transition: width 0.3s ease;
+}
+
+/* Hover – linka se rozjede ze středu */
+.menu-item:hover::after {
+  width: 100%;
+}
+
+.menu-item:hover {
+  opacity: 0.7;
+  cursor: pointer;
+}
+.navbar {
+  font-family: Roboto, Arial, Helvetica, sans-serif;
+
+  display: flex;
+  flex-direction: row;
+  width: 200px;
+  height: 100%;
+}
+.logo {
+  width: 100px;
+  height: 100px;
+  margin: 10px;
+  transition: transform 0.25s linear;
+}
+
+.logo:hover {
+  animation: spin 0.25s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.logo-placeholder {
+  align-self: center;
+  justify-self: center;
+  margin: 10px;
+  padding: 10px;
+  font-family: Roboto, Arial, Helvetica, sans-serif;
+  font-size: xx-large;
+  font-weight: 300;
+  color: rgb(0, 0, 0) !important;
+  display: inline-block;
+  transition: transform 0.2s ease;
+  cursor: initial;
+}
+
+.logo-placeholder:hover {
+  animation: chaos 0.4s infinite alternate ease-in-out;
+}
+
+@keyframes chaos {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  25% {
+    transform: rotate(3deg) scale(1.1) translateX(2px);
+  }
+  50% {
+    transform: rotate(-3deg) scale(1.05) translateX(-2px);
+  }
+  75% {
+    transform: rotate(2deg) scale(1.12) translateY(2px);
+  }
+  100% {
+    transform: rotate(-2deg) scale(1.08) translateY(-2px);
+  }
+}
+a {
+  text-decoration: none;
+  color: black;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: max-content;
+
+  width: 50vw;
+}
+.container2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: max-content;
+  justify-content: center;
+  align-content: center;
+  width: 30vw;
+}
+.horizontal-flex {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+}
+h1 {
+  font-family: Manrope, Arial, Helvetica, sans-serif;
+  font-size: xx-large;
+}
+p {
+  font-family: Manrope, Arial, Helvetica, sans-serif;
+  font-size: x-large;
+  text-align: justify;
+}
+.p-elektro {
+  font-family: Manrope, Arial, Helvetica, sans-serif;
+  font-size: 2cap;
+  text-align: justify;
+  color: rgb(86, 86, 86);
+}
+.cara {
+  border-top: 3px solid rgba(0, 44, 111, 0.699);
+  width: 30%;
+  align-self: baseline;
+  justify-self: baseline;
+}
+.separator {
+  border-top: 3px solid rgba(0, 44, 111, 0.699);
+  width: 30%;
+  align-self: center;
+  justify-self: center;
+}
+.separator-full {
+  border-top: 2px solid rgba(0, 44, 111, 0.205);
+  width: 90%;
+  align-self: center;
+  justify-self: center;
+}
+.horizontal-3grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 7vw;
+  width: 100%;
+  padding: 20px;
+  align-items: first baseline;
+}
+.horizontal-3grid > div {
+  max-width: 400px;
+}
+
+.vertical-flex {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+h2 {
+  font-family: Manrope, Arial, Helvetica, sans-serif;
+  font-size: x-large;
+}
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  overflow-x: hidden;
+}
+
+.menu,
+.horizontal-flex,
+.horizontal-3grid {
+  width: 100%;
+}
+.button {
+  font-family: Manrope, Arial, Helvetica, sans-serif;
+  font-size: xx-large;
+  padding: 10px 20px;
+  background-color: rgb(0, 66, 81);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* CSS */
+.button-17 {
+  align-items: center;
+  appearance: none;
+  background-color: #fff;
+  border-radius: 24px;
+  border-style: none;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 3px 5px -1px,
+    rgba(0, 0, 0, 0.14) 0 6px 10px 0, rgba(0, 0, 0, 0.12) 0 1px 18px 0;
+  box-sizing: border-box;
+  color: #3c4043;
+  cursor: pointer;
+  display: inline-flex;
+  fill: currentcolor;
+  font-family: Manrope, Roboto, Arial, sans-serif;
+  font-size: 25px;
+  font-weight: 500;
+  height: 48px;
+  justify-content: center;
+  letter-spacing: 0.25px;
+  line-height: normal;
+  max-width: 100%;
+  overflow: visible;
+  padding: 2px 24px;
+  position: relative;
+  text-align: center;
+  text-transform: none;
+  transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 15ms linear 30ms, transform 270ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  width: 100%;
+  will-change: transform, opacity;
+  z-index: 0;
+}
+
+.button-17:hover {
+  background: #f6f9fe;
+  color: #174ea6;
+}
+
+.button-17:active {
+  box-shadow: 0 4px 4px 0 rgb(60 64 67 / 30%),
+    0 8px 12px 6px rgb(60 64 67 / 15%);
+  outline: none;
+}
+
+.button-17:focus {
+  outline: none;
+  border: 2px solid #4285f4;
+}
+
+.button-17:not(:disabled) {
+  box-shadow: rgba(60, 64, 67, 0.3) 0 1px 3px 0,
+    rgba(60, 64, 67, 0.15) 0 4px 8px 3px;
+}
+
+.button-17:not(:disabled):hover {
+  box-shadow: rgba(60, 64, 67, 0.3) 0 2px 3px 0,
+    rgba(60, 64, 67, 0.15) 0 6px 10px 4px;
+}
+
+.button-17:not(:disabled):focus {
+  box-shadow: rgba(60, 64, 67, 0.3) 0 1px 3px 0,
+    rgba(60, 64, 67, 0.15) 0 4px 8px 3px;
+}
+
+.button-17:not(:disabled):active {
+  box-shadow: rgba(60, 64, 67, 0.3) 0 4px 4px 0,
+    rgba(60, 64, 67, 0.15) 0 8px 12px 6px;
+}
+
+.button-17:disabled {
+  box-shadow: rgba(60, 64, 67, 0.3) 0 1px 3px 0,
+    rgba(60, 64, 67, 0.15) 0 4px 8px 3px;
+}
+/* Základní styl */
+.footer {
+  width: 100%;
+  padding: 40px 0 20px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(14px) saturate(180%);
+  -webkit-backdrop-filter: blur(14px) saturate(180%);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  color: #e5e7eb;
+  font-family: system-ui, sans-serif;
+}
+
+/* Obsah footeru */
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 40px;
+}
+
+/* Levá část */
+.footer-left h2 {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.footer-left p {
+  margin: 6px 0 0;
+  opacity: 0.7;
+}
+
+/* Odkazy */
+.footer-links,
+.footer-social {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-links a,
+.footer-social a {
+  color: #cbd5e1;
+  text-decoration: none;
+  transition: 0.25s ease;
+}
+
+.footer-links a:hover,
+.footer-social a:hover {
+  color: #4f9cff;
+  transform: translateX(3px);
+}
+
+.botnik {
+  font-family: Manrope, Arial, Helvetica, sans-serif;
+  display: block;
+  width: 100%;
+  padding: 16px 0;
+  text-align: center;
+  font-size: 1.5rem;
+  color: #505050;
+  background: #f0ffff0e;
+  font-family: system-ui, sans-serif;
+}
+
+/* KONTEJNER PRO KOLOTOČ */
+.slider {
+  position: relative;
+  width: 500px; /* šířku si můžeš změnit */
+  height: 300px; /* výšku si můžeš změnit */
+  overflow: hidden;
+  justify-self: center;
+  align-self: center;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.203);
+}
+
+/* PÁSKA S OBRÁZKY */
+.slides {
+  display: flex;
+  width: 100%; /* 4 obrázky => 4 * 100% */
+
+  animation: slideShow 16s infinite;
+}
+
+.slide {
+  flex: 1 0 100%;
+  height: 100%;
+}
+
+.slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ANIMACE – MĚŇ HODNOTY PRO VÍC/MÍŇ FOTEK */
+@keyframes slideShow {
+  0% {
+    transform: translateX(0%);
+  }
+  20% {
+    transform: translateX(0%);
+  }
+
+  25% {
+    transform: translateX(-100%);
+  }
+  45% {
+    transform: translateX(-100%);
+  }
+
+  50% {
+    transform: translateX(-200%);
+  }
+  70% {
+    transform: translateX(-200%);
+  }
+
+  75% {
+    transform: translateX(-300%);
+  }
+  95% {
+    transform: translateX(-300%);
+  }
+
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+.carousel2 {
+  margin-top: 50px;
+  width: 30%;
+  height: 20vw;
+  position: relative;
+  overflow: hidden;
+  border-radius: 0px;
+  /* box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5); */
+}
+
+.slides2 {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.5s ease;
+}
+
+.slide2 {
+  min-width: 100%;
+  height: 100%;
+}
+
+.slide2 img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ŠIPKY */
+.arrow2 {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 40px;
+  color: white;
+  cursor: pointer;
+  padding: 10px;
+  user-select: none;
+  transition: 0.2s;
+  z-index: 10;
+}
+
+.arrow2:hover {
+  color: #ffcc00;
+}
+
+.left2 {
+  left: 10px;
+}
+
+.right2 {
+  right: 10px;
+}
+.propagace {
+  height: 20vw;
+  width: auto;
+}
+.horizontal-2grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 5vw;
+  width: 100%;
+  padding: 20px;
+  align-items: first baseline;
+}
+form {
+  width: 30vw;
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-family: Manrope, Arial, Helvetica, sans-serif;
+}
+
+input,
+textarea {
+  width: 100%;
+  font-family: Manrope, Arial, Helvetica, sans-serif;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  resize: vertical;
+}
+
+.gray-text {
+  color: rgb(148, 148, 148);
+  font-weight: 600;
+  width: 30vw;
+}
+.gray-text-datum {
+  color: rgb(148, 148, 148);
+  font-weight: 300;
+  font-size: medium;
+  justify-content: center;
+  align-content: center;
+  width: 30vw;
+}
+.vertical-grid {
+  display: grid;
+  gap: 2vh;
+  width: 100%;
+  padding: 20px;
+  align-items: first baseline;
+}
+.tri-fotky {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.tri-fotky img {
+  width: 33%;
+  border-radius: 8px;
+  object-fit: cover;
+}
+.tri-fotky img:hover {
+  transform: scale(1.55);
+  transition: transform 2s ease-in-out;
+  opacity: 0.7;
+  color-scheme: inherit;
+}
+/* Kontejner pro všechny karty */
+.team-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  width: 70vw; /* Upravte podle potřeby */
+  margin-top: 50px;
+}
+
+/* Samotná karta osoby */
+.team-card {
+  display: flex;
+  flex-direction: row;
+  background: white;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
+}
+
+.team-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Prostor pro obrázek */
+.team-image-box {
+  flex: 0 0 300px; /* Pevná šířka obrázku vlevo */
+  height: auto;
+}
+
+.team-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Informace vpravo */
+.team-info {
+  flex: 1;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.team-header h2 {
+  margin: 0;
+  font-size: 2.2rem;
+}
+
+.team-desc {
+  margin: 20px 0;
+  font-size: 1.2rem;
+  line-height: 1.5;
+}
+
+/* Kontakty dole */
+.team-contacts {
+  border-top: 1px solid rgba(0, 44, 111, 0.1);
+  padding-top: 20px;
+  display: flex;
+  gap: 25px;
+  flex-wrap: wrap;
+}
+
+.contact-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: Manrope, sans-serif;
+  font-weight: 600;
+}
+
+.contact-line a {
+  color: rgb(0, 66, 81);
+  transition: color 0.2s;
+}
+
+.contact-line a:hover {
+  color: #4f9cff;
+}
+
+/* RESPONZIVITA - pro mobily se to dá pod sebe */
+@media (max-width: 1000px) {
+  .team-card {
+    flex-direction: column;
+  }
+  .team-image-box {
+    flex: 0 0 250px;
+  }
+  .team-wrapper {
+    width: 90vw;
+  }
+}
+/* Výchozí stav obrázku */
+.team-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+
+  /* Skrytí a příprava na animaci */
+
+  transform: scale(1);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+/* Stav při najetí myší na kartu nebo přímo na obrázek */
+/* Používáme hover na celou .team-card, aby se obrázek ukázal, 
+   i když najedete na text vedle něj */
+.team-card:hover .team-photo {
+  opacity: 1;
+  transform: scale(2); /* 2x zvětšení */
+}
+
+/* Zamezení přetečení zvětšeného obrázku mimo jeho rámeček */
+.team-image-box {
+  flex: 0 0 300px;
+  height: auto;
+  overflow: hidden; /* DŮLEŽITÉ: ořízne zvětšený obrázek, aby nezasahoval do textu */
+  background: #f9f9f9; /* Volitelné: lehké pozadí, když tam obrázek není */
+}
+/* ============================================================
+   KOMPLETNÍ RESPONZIVNÍ SEKCE PRO MOBILY A TABLETY
+   ============================================================ */
+
+@media (max-width: 768px) {
+  /* 1. MENU - Horní lišta pod sebe */
+  .menu {
+    flex-direction: column !important;
+    position: relative !important; /* Na mobilu lépe nefixované, aby nezabíralo místo */
+    height: auto !important;
+    padding: 10px 0;
+    align-items: center;
+  }
+
+  .menu .horizontal-flex {
+    flex-direction: column !important;
+    text-align: center;
+  }
+
+  .logo {
+    width: 20px !important;
+    height: 20px !important;
+  }
+
+  .logo-placeholder {
+    font-size: 1.2rem !important;
+    margin: 5px 0 10px 0;
+  }
+
+  .menu-text {
+    justify-content: center !important;
+    flex-wrap: wrap;
+    padding-right: 0 !important;
+  }
+
+  .menu-item {
+    font-size: 1.1rem !important;
+    margin: 5px 8px !important;
+    padding: 5px !important;
+  }
+
+  /* 2. OBSAH A TEXTY */
+  .content {
+    padding-top: 20px !important; /* Menší mezera, když menu není fixní */
+  }
+
+  h1 {
+    font-size: 1.8rem !important;
+    text-align: center;
+    padding: 0 10px;
+  }
+
+  p,
+  .team-desc {
+    font-size: 1.05rem !important;
+    text-align: left !important; /* Justify na mobilu vypadá zle */
+    line-height: 1.4;
+  }
+
+  /* 3. KONTEJNERY - Roztažení na celou šířku */
+  .container,
+  .container2,
+  form,
+  .gray-text,
+  .gray-text-datum {
+    width: 92vw !important;
+  }
+
+  .horizontal-flex {
+    flex-direction: column !important;
+  }
+
+  /* Obrázky v obsahu */
+  .content img {
+    max-width: 100% !important;
+    width: 90% !important;
+    height: auto !important;
+    margin: 15px 0 !important;
+    border-radius: 10px;
+  }
+
+  /* 4. TÝM (Stránka Náš tým - Grid) */
+  .team-grid {
+    grid-template-columns: 1fr !important; /* Karty pod sebou */
+    width: 95vw !important;
+    gap: 20px !important;
+  }
+
+  .team-card {
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .team-image-box {
+    height: 220px !important; /* O něco menší fotky na výšku */
+  }
+
+  /* Vypnutí extrémního zoomu pro mobily (hover na dotyk zlobí) */
+  .team-card:hover .team-photo {
+    transform: scale(1.1) !important;
+  }
+
+  /* 5. OSTATNÍ GRIDY (Elektro, Robotika atd.) */
+  .horizontal-3grid,
+  .horizontal-2grid,
+  .vertical-grid {
+    grid-template-columns: 1fr !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 30px !important;
+    padding: 15px !important;
+  }
+
+  .tri-fotky {
+    flex-direction: column !important;
+  }
+
+  .tri-fotky img {
+    width: 100% !important;
+    margin-bottom: 10px;
+  }
+
+  /* 6. PATIČKA */
+  .botnik,
+  .footer-content {
+    font-size: 1rem !important;
+    flex-direction: column !important;
+    text-align: center;
+    gap: 20px;
+  }
+}
+@media (max-width: 768px) {
+  /* 1. CELÁ LIŠTA - Změna na sloupec a zrušení fixní pozice */
+  .menu {
+    flex-direction: column !important;
+    position: relative !important; /* Na mobilu je lepší, když neodjíždí se stránkou */
+    height: auto !important;
+    padding: 10px 0 !important;
+    align-items: center !important;
+  }
+
+  /* 2. LOGO A NÁZEV - Pod sebe a zmenšit */
+  .menu > a.horizontal-flex {
+    flex-direction: column !important;
+    margin-bottom: 10px !important;
+  }
+
+  .logo {
+    width: 30px !important; /* Menší logo na mobilu */
+    height: 30px !important;
+  }
+
+  .logo-placeholder {
+    font-size: 1.1rem !important; /* Výrazně menší text názvu */
+    text-align: center !important;
+    margin: 5px 10px !important;
+    width: 90% !important;
+    white-space: normal !important; /* Povolí zalomení textu, pokud je moc dlouhý */
+  }
+
+  /* 3. ODKAZY (Projekty, Náš tým...) - Srovnat do mřížky nebo pod sebe */
+  .menu-text {
+    width: 100% !important;
+    justify-content: center !important;
+    padding-right: 0 !important;
+    flex-wrap: wrap !important; /* Odkazy se dají do dvou řad pod sebe */
+    gap: 5px !important;
+  }
+
+  .menu-item {
+    font-size: 1rem !important; /* Menší písmo odkazů */
+    margin: 5px 10px !important;
+    padding: 5px !important;
+  }
+
+  /* 4. OPRAVA OBSAHU - Aby nezačínal moc nízko */
+  .content {
+    padding-top: 20px !important; /* Protože menu už není 'fixed', nepotřebujeme velký padding */
+  }
+}
+/* ============================================================
+   UNIVERZÁLNÍ OPRAVA PRO MOBILY (Projekty + Tým + Menu)
+   ============================================================ */
+
+@media (max-width: 768px) {
+  /* 1. OPRAVA MENU (HEADERU) */
+  .menu {
+    flex-direction: column !important;
+    height: auto !important;
+    position: relative !important;
+    padding: 15px 0 !important;
+    align-items: center !important;
+  }
+
+  .horizontal-flex {
+    flex-direction: column !important;
+    width: 100% !important;
+    margin-bottom: 10px !important;
+  }
+
+  .logo-placeholder {
+    font-size: 1.2rem !important;
+    text-align: center !important;
+    white-space: normal !important; /* Povolí zalomení dlouhého názvu */
+    margin: 5px 10px !important;
+  }
+
+  .menu-text {
+    width: 100% !important;
+    justify-content: center !important;
+    flex-wrap: wrap !important;
+    padding-right: 0 !important;
+    gap: 10px !important;
+  }
+
+  /* 2. OPRAVA OBSAHU (PROJEKTY I TÝM) */
+  .content {
+    padding-top: 20px !important; /* Menu už není fixní, tak nepotřebujeme velký padding */
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+
+  /* Zrušení fixních šířek, které vytlačují obsah doleva/doprava */
+  p,
+  .team-desc,
+  .container p,
+  .container2 p {
+    min-width: 0 !important;
+    width: 90% !important;
+    max-width: 100% !important;
+    margin: 10px auto !important;
+    text-align: center !important;
+  }
+
+  /* 3. PROJEKTY - SPECIFICKÉ OPRAVY */
+  .horizontal-flex img,
+  .propagace,
+  .slider,
+  .carousel2 {
+    width: 90% !important;
+    max-width: 400px !important;
+    height: auto !important;
+    margin: 15px auto !important;
+  }
+
+  /* Pokud máš u projektů nadpisy s font-size: 10cap, tady je zmenšíme */
+  h1 {
+    font-size: 2.5rem !important;
+    text-align: center !important;
+  }
+
+  /* 4. MŘÍŽKY (GRIDY) */
+  .team-grid,
+  .project-grid {
+    grid-template-columns: 1fr !important;
+    width: 90% !important;
+    margin: 0 auto !important;
+  }
+}
+/* OPRAVA KOLOTOČŮ A SLIDERŮ PRO MOBILY */
+@media (max-width: 768px) {
+  /* 1. HLAVNÍ KONTEJNER - Musí mít pevnou výšku */
+  .slider,
+  .carousel2 {
+    height: 300px !important;
+    position: relative !important;
+    overflow: hidden !important;
+  }
+
+  /* 2. VNITŘNÍ PÁS - Toto je kritické! 
+       Musí mít výšku 100 %, aby fotky uvnitř nebyly 'nulové' */
+  .slides,
+  .slides2 {
+    display: flex !important; /* Zajistí, že fotky jsou v řadě */
+    height: 100% !important;
+    width: 100% !important;
+  }
+
+  /* 3. JEDNOTLIVÉ POLOŽKY/OBRÁZKY */
+  .slider img,
+  .carousel2 img,
+  .slides2 img,
+  .slides img {
+    /* Musí zabírat 100% šířky i výšky kontejneru */
+    min-width: 100% !important;
+    max-width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    /* Zamezení bílým místům */
+    display: block !important;
+    flex-shrink: 0 !important; /* Zabrání smrsknutí obrázků na nulu */
+  }
+}
+
+/* 2. Vynucení oříznutí obrázku (aby vyplnil celou plochu) */
+.slider img,
+.carousel2 img,
+.slides2 img,
+.slides img,
+.item img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important; /* TADY JE TA OPRAVA: ořízne se jako na PC */
+  object-position: center !important;
+  display: block;
+}
+
+/* 3. Úprava ovládacích prvků (šipky/tečky), aby nepřekážely */
+.prev,
+.next {
+  padding: 8px !important;
+  font-size: 14px !important;
+  background-color: rgba(255, 255, 255, 0.5) !important;
+}
+@media (max-width: 768px) {
+  /* Cílíme přímo na element img s třídou logo */
+  img.logo {
+    width: 60px !important; /* 20px je extrémně málo, zkuste 40-50px */
+    height: auto !important; /* Důležité pro zachování poměru stran */
+    margin: 5px auto !important;
+    display: block !important;
+  }
+}
