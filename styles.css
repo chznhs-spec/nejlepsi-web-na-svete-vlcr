@@ -1086,3 +1086,203 @@ textarea {
         height: 150px;
     }
 }
+
+/* ============================================================
+   SEKCE: VYHLEDÁVAČ PŘEDNÁŠEK (VLČR) - SCOPED
+   ============================================================ */
+
+:root {
+    --primary: #004251;
+    --accent: #0ea5e9;
+    --text-dark: #1e293b;
+    --text-light: #64748b;
+    --bg-page: #f8fafc;
+    --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+    --card-shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+}
+
+/* Pouze stránka přednášek */
+body.lectures-page {
+    background-color: var(--bg-page);
+    color: var(--text-dark);
+    font-family: 'Roboto', sans-serif;
+}
+
+.lectures-page .content {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 120px 20px 60px;
+    display: block; /* přebije původní flex z hlavního stylu */
+}
+
+/* Hlavička */
+.lectures-page .search-header-v2 {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.lectures-page .search-title {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 800;
+    font-size: 3rem;
+    letter-spacing: -0.03em;
+    color: var(--primary);
+    margin: 0;
+}
+
+/* Filtry */
+.lectures-page .filter-section {
+    background: white;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: var(--card-shadow);
+    margin-bottom: 40px;
+}
+
+.lectures-page .filter-bar {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.lectures-page .filter-bar input,
+.lectures-page .filter-bar select {
+    padding: 12px 16px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.95rem;
+    outline: none;
+    transition: all 0.2s;
+}
+
+.lectures-page .filter-bar input { flex: 2; min-width: 200px; }
+.lectures-page .filter-bar select { flex: 1; min-width: 140px; cursor: pointer; }
+
+.lectures-page .filter-bar input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+}
+
+/* Karta přednášky */
+.lectures-page .lectures-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.lectures-page .lecture-card-v2 {
+    display: flex;
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(226, 232, 240, 0.5);
+}
+
+.lectures-page .lecture-card-v2:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--card-shadow-hover);
+}
+
+.lectures-page .date-badge {
+    background-color: var(--primary);
+    color: white;
+    min-width: 110px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    text-align: center;
+}
+
+.lectures-page .date-badge .day {
+    font-family: 'Manrope', sans-serif;
+    font-size: 2.4rem;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.lectures-page .date-badge .month {
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-top: 4px;
+    margin-bottom: 8px;
+    letter-spacing: 0.05em;
+    opacity: 0.9;
+}
+
+.lectures-page .date-badge .time {
+    font-size: 0.95rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 6px;
+}
+
+.lectures-page .lecture-content {
+    padding: 24px 32px;
+    flex: 1;
+}
+
+.lectures-page .top-meta {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+}
+
+.lectures-page .tag {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.7rem;
+    font-weight: 800;
+    padding: 4px 10px !important;
+    line-height: 1 !important;
+    height: auto !important;
+    border-radius: 6px;
+    text-transform: uppercase;
+    font-family: 'Manrope', sans-serif;
+    letter-spacing: 0.02em;
+}
+
+.lectures-page .tag-cat  { background: #f1f5f9; color: #475569; }
+.lectures-page .tag-loc  { background: #e0f2fe; color: #0369a1; }
+.lectures-page .tag-room { background: #f8fafc; color: #64748b; border: 1px solid #e2e8f0; }
+
+.lectures-page .lecture-content .title {
+    font-family: 'Manrope', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+    color: var(--text-dark);
+    line-height: 1.3;
+}
+
+.lectures-page .lecture-content .description {
+    font-size: 0.95rem;
+    color: var(--text-light);
+    line-height: 1.6;
+    margin: 0;
+    text-align: left;
+}
+
+.lectures-page .no-results {
+    text-align: center;
+    padding: 60px;
+    color: var(--text-light);
+    font-style: italic;
+}
+
+/* Mobilní verze – pouze pro tuto stránku */
+@media (max-width: 600px) {
+    .lectures-page .lecture-card-v2 { flex-direction: column; }
+    .lectures-page .date-badge { flex-direction: row; min-width: auto; gap: 15px; padding: 15px; }
+    .lectures-page .date-badge .month { margin-bottom: 0; }
+    .lectures-page .search-title { font-size: 2.2rem; }
+    .lectures-page .lecture-content { padding: 20px; }
+}
