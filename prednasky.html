@@ -6,6 +6,10 @@
     <title>Vyhledávač přednášek | VLČR</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        /* Jen drobný doplněk pro barvu místnosti, aby se nepletla s obory */
+        .tag-room { background: #f1f5f9 !important; color: #475569 !important; border: 1px solid #e2e8f0 !important; }
+    </style>
 </head>
 <body>
 
@@ -30,17 +34,25 @@
         <section class="filter-section">
             <div class="filter-bar">
                 <input type="text" id="searchInput" placeholder="Hledat název, jméno nebo téma..." />
+                
                 <select id="categoryFilter">
                     <option value="all">Všechny obory</option>
-                    <option value="Věda">Věda</option>
-                    <option value="Historie">Historie</option>
+                    <option value="Chemie">Chemie</option>
+                    <option value="Fyzika">Fyzika</option>
                     <option value="Technologie">Technologie</option>
+                    <option value="Biologie">Biologie</option>
+                    <option value="Matematika">Matematika</option>
+                    <option value="Informatika">Informatika</option>
+                    <option value="Medicína">Medicína</option>
+                    <option value="Historie">Historie</option>
                 </select>
+
                 <select id="locationFilter">
                     <option value="all">Kdekoliv</option>
-                    <option value="Praha">Praha</option>
-                    <option value="Brno">Brno</option>
-                    <option value="Online">Online</option>
+                    <option value="čvut">ČVUT</option>
+                    <option value="uk">UK</option>
+                    <option value="všcht">VŠCHT</option>
+                    <option value="online">Online</option>
                 </select>
             </div>
         </section>
@@ -51,14 +63,17 @@
     </main>
 
     <script>
-        // TVOJE KONFIGURACE
+        // KONFIGURACE
         const API_KEY = 'AIzaSyBYNhB9SMazhbLZ4AQG1OZQa7DxCKABmW0'; 
         const CALENDAR_ID = 'vlcr.hlavni@gmail.com';
 
-        let allEvents = []; // Sem si uložíme data pro filtrování
+        let allEvents = [];
+
+        // Slovníky pro chytrou detekci
+        const knownCategories = ['chemie', 'fyzika', 'technologie', 'biologie', 'matematika', 'informatika', 'medicína', 'historie', 'věda'];
+        const knownLocations = { '#čvut': 'ČVUT', '#uk': 'UK', '#všcht': 'VŠCHT', '#ntk': 'NTK', '#online': 'Online' };
 
         async function fetchLectures() {
-            // Načítáme události od dnešního dne dál
             const now = new Date().toISOString();
             const url = `https://www.googleapis.com/calendar/v3/calendars/${CALENDAR_ID}/events?key=${API_KEY}&timeMin=${now}&singleEvents=true&orderBy=startTime`;
 
@@ -74,8 +89,7 @@
                 console.error('Chyba při načítání:', error);
                 document.getElementById('lectures-list').innerHTML = `
                     <p style="text-align:center; color: #ef4444; padding: 20px;">
-                        <b>Chyba při propojení s kalendářem.</b><br>
-                        Zkontrolujte, zda je kalendář nastaven jako "Veřejný" v nastavení Google Kalendáře.
+                        <b>Chyba při propojení s kalendářem.</b>
                     </p>`;
             }
         }
@@ -95,12 +109,38 @@
                 const month = start.toLocaleString('cs-CZ', { month: 'short' }).toUpperCase().replace('.', '');
                 const time = start.toLocaleTimeString('cs-CZ', { hour: '2-digit', minute: '2-digit' });
 
-                // Jednoduché parsování popisu pro tagy (pokud v popisu použiješ #Věda)
-                const desc = event.description || '';
-                const categoryMatch = desc.match(/#(\w+)/);
-                const category = categoryMatch ? categoryMatch[1] : 'Přednáška';
-                const cleanDesc = desc.replace(/#\w+/g, '').trim();
+                const fullDesc = event.description || '';
+                const lowerDesc = fullDesc.toLowerCase();
+                
+                // 1. OBORY
+                const extractedTags = fullDesc.match(/#\S+/g) || [];
+                let lectureCategories = extractedTags
+                    .map(tag => tag.replace('#', ''))
+                    .filter(tag => knownCategories.includes(tag.toLowerCase()));
 
+                if (lectureCategories.length === 0) lectureCategories = ['Přednáška'];
+
+                const categoriesHtml = lectureCategories
+                    .map(cat => `<span class="tag tag-cat">${cat.charAt(0).toUpperCase() + cat.slice(1)}</span>`)
+                    .join(' ');
+
+                // 2. MÍSTNOST (Hledá symbol $)
+                const roomMatch = fullDesc.match(/\$(\S+)/);
+                const roomHtml = roomMatch ? `<span class="tag tag-room">${roomMatch[1]}</span>` : '';
+
+                // 3. LOKALITA
+                let displayLocation = event.location;
+                if (!displayLocation) {
+                    for (const [key, value] of Object.entries(knownLocations)) {
+                        if (lowerDesc.includes(key)) { displayLocation = value; break; }
+                    }
+                    if (!displayLocation) displayLocation = 'Místo upřesníme';
+                }
+
+                // 4. VYČIŠTĚNÍ TEXTU (Smaže # i $)
+                const cleanDesc = fullDesc.replace(/#\S+/g, '').replace(/\$\S+/g, '').trim();
+
+                // 5. VYKRESLENÍ
                 listElement.innerHTML += `
                     <div class="lecture-card-v2">
                         <div class="date-badge">
@@ -109,45 +149,39 @@
                             <span class="time">${time}</span>
                         </div>
                         <div class="lecture-content">
-                            <div class="top-meta">
-                                <span class="tag tag-cat">${category}</span>
-                                <span class="tag tag-loc">${event.location || 'Místo konání upřesníme'}</span>
+                            <div class="top-meta" style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px;">
+                                ${categoriesHtml}
+                                <span class="tag tag-loc">${displayLocation}</span>
+                                ${roomHtml}
                             </div>
                             <h2 class="title">${event.summary}</h2>
-                            <p class="description">${cleanDesc || 'K této přednášce zatím nemáme podrobnější popis.'}</p>
+                            <p class="description">${cleanDesc || 'Bez popisu.'}</p>
                         </div>
                     </div>
                 `;
             });
         }
 
-        // Logika filtrování
         function filterData() {
             const searchText = document.getElementById('searchInput').value.toLowerCase();
-            const category = document.getElementById('categoryFilter').value;
-            const location = document.getElementById('locationFilter').value;
+            const category = document.getElementById('categoryFilter').value.toLowerCase();
+            const location = document.getElementById('locationFilter').value.toLowerCase();
 
             const filtered = allEvents.filter(event => {
                 const title = (event.summary || '').toLowerCase();
                 const desc = (event.description || '').toLowerCase();
                 const loc = (event.location || '').toLowerCase();
-                
                 const matchesSearch = title.includes(searchText) || desc.includes(searchText);
                 const matchesCat = category === 'all' || desc.includes('#' + category);
-                const matchesLoc = location === 'all' || loc.includes(location.toLowerCase());
-
+                const matchesLoc = location === 'all' || loc.includes(location) || desc.includes('#' + location);
                 return matchesSearch && matchesCat && matchesLoc;
             });
-
             renderLectures(filtered);
         }
 
-        // Aktivace filtrů
         document.getElementById('searchInput').addEventListener('input', filterData);
         document.getElementById('categoryFilter').addEventListener('change', filterData);
         document.getElementById('locationFilter').addEventListener('change', filterData);
-
-        // Spuštění
         fetchLectures();
     </script>
 </body>
