@@ -43,6 +43,7 @@
                     <option value="Energetika">Energetika</option>
                     <option value="Biologie">Biologie</option>
                     <option value="Matematika">Matematika</option>
+                    <option value="Ekonomika">Ekonomika</option>
                     <option value="Informatika">Informatika</option>
                     <option value="Medicína">Medicína</option>
                     <option value="Historie">Historie</option>
@@ -75,12 +76,12 @@
 
     let allEvents = [];
 
-    // ROZŠÍŘENÉ OBORY
-    const knownCategories = [
-        'chemie', 'fyzika', 'technologie', 'biologie', 'matematika', 
-        'informatika', 'medicína', 'historie', 'věda', 'kosmonautika', 
-        'energetika', 'astronomie', 'psychologie', 'filozofie', 'ekonomie'
-    ];
+    // ROZŠÍŘENÉ OBORY (Aktualizováno o ekonomiku)
+const knownCategories = [
+    'chemie', 'fyzika', 'technologie', 'biologie', 'matematika', 
+    'informatika', 'medicína', 'historie', 'věda', 'kosmonautika', 
+    'energetika', 'astronomie', 'psychologie', 'filozofie', 'ekonomika', 'ekonomie'
+];
 
     // ROZŠÍŘENÉ LOKALITY
     const knownLocations = { 
@@ -107,75 +108,75 @@
         }
     }
 
-    function renderLectures(events) {
-        const listElement = document.getElementById('lectures-list');
-        listElement.innerHTML = '';
+   function renderLectures(events) {
+    const listElement = document.getElementById('lectures-list');
+    listElement.innerHTML = '';
 
-        if (events.length === 0) {
-            listElement.innerHTML = '<p class="no-results">Žádné nadcházející přednášky nenalezeny.</p>';
-            return;
+    if (events.length === 0) {
+        listElement.innerHTML = '<p class="no-results">Žádné nadcházející přednášky nenalezeny.</p>';
+        return;
+    }
+
+    events.forEach(event => {
+        const start = new Date(event.start.dateTime || event.start.date);
+        const day = start.getDate();
+        const month = start.toLocaleString('cs-CZ', { month: 'short' }).toUpperCase().replace('.', '');
+        const time = start.toLocaleTimeString('cs-CZ', { hour: '2-digit', minute: '2-digit' });
+
+        const fullDesc = event.description || '';
+        const lowerDesc = fullDesc.toLowerCase();
+        
+        // 1. EXTRAKCE TAGŮ (Obory včetně ekonomiky)
+        const extractedTags = fullDesc.match(/#\S+/g) || [];
+        let lectureCategories = extractedTags
+            .map(tag => tag.replace('#', ''))
+            .filter(tag => knownCategories.includes(tag.toLowerCase()));
+
+        if (lectureCategories.length === 0) lectureCategories = ['Přednáška'];
+        const categoriesHtml = lectureCategories
+            .map(cat => `<span class="tag tag-cat">${cat.charAt(0).toUpperCase() + cat.slice(1)}</span>`)
+            .join(' ');
+
+        // 2. EXTRAKCE MÍSTNOSTI ($)
+        const roomMatch = fullDesc.match(/\$(\S+)/);
+        const roomHtml = roomMatch ? `<span class="tag tag-room">${roomMatch[1]}</span>` : '';
+
+        // 3. DETERMINACE LOKALITY
+        let displayLocation = event.location;
+        if (!displayLocation) {
+            for (const [key, value] of Object.entries(knownLocations)) {
+                if (lowerDesc.includes(key)) { displayLocation = value; break; }
+            }
+            if (!displayLocation) displayLocation = 'Místo upřesníme';
         }
 
-        events.forEach(event => {
-            const start = new Date(event.start.dateTime || event.start.date);
-            const day = start.getDate();
-            const month = start.toLocaleString('cs-CZ', { month: 'short' }).toUpperCase().replace('.', '');
-            const time = start.toLocaleTimeString('cs-CZ', { hour: '2-digit', minute: '2-digit' });
+        // 4. SANITACE TEXTU (Odstranění HTML formátování a systémových znaků)
+        const cleanDesc = fullDesc
+            .replace(/<[^>]*>?/gm, '') // Odstraní HTML tagy z Google Kalendáře
+            .replace(/#\S+/g, '')     // Odstraní hashtagy
+            .replace(/\$\S+/g, '')     // Odstraní označení místností
+            .trim();
 
-            const fullDesc = event.description || '';
-            const lowerDesc = fullDesc.toLowerCase();
-            
-            // 1. ZÍSKÁNÍ TAGŮ
-            const extractedTags = fullDesc.match(/#\S+/g) || [];
-            let lectureCategories = extractedTags
-                .map(tag => tag.replace('#', ''))
-                .filter(tag => knownCategories.includes(tag.toLowerCase()));
-
-            if (lectureCategories.length === 0) lectureCategories = ['Přednáška'];
-            const categoriesHtml = lectureCategories
-                .map(cat => `<span class="tag tag-cat">${cat.charAt(0).toUpperCase() + cat.slice(1)}</span>`)
-                .join(' ');
-
-            // 2. MÍSTNOST ($)
-            const roomMatch = fullDesc.match(/\$(\S+)/);
-            const roomHtml = roomMatch ? `<span class="tag tag-room">${roomMatch[1]}</span>` : '';
-
-            // 3. LOKALITA
-            let displayLocation = event.location;
-            if (!displayLocation) {
-                for (const [key, value] of Object.entries(knownLocations)) {
-                    if (lowerDesc.includes(key)) { displayLocation = value; break; }
-                }
-                if (!displayLocation) displayLocation = 'Místo upřesníme';
-            }
-
-            // --- KLÍČOVÁ OPRAVA: Čištění HTML tagů z Google Kalendáře ---
-            const cleanDesc = fullDesc
-                .replace(/<[^>]*>?/gm, '') // SMAŽE VŠECHNY HTML TAGY (nadpisy, tučné, atd.)
-                .replace(/#\S+/g, '')     // Smaže hashtagy
-                .replace(/\$\S+/g, '')     // Smaže místnosti
-                .trim();
-
-            listElement.innerHTML += `
-                <div class="lecture-card-v2">
-                    <div class="date-badge">
-                        <span class="day">${day}</span>
-                        <span class="month">${month}</span>
-                        <span class="time">${time}</span>
-                    </div>
-                    <div class="lecture-content">
-                        <div class="top-meta" style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px;">
-                            ${categoriesHtml}
-                            <span class="tag tag-loc">${displayLocation}</span>
-                            ${roomHtml}
-                        </div>
-                        <h2 class="title">${event.summary}</h2>
-                        <p class="description">${cleanDesc || 'Podrobnosti v popisu chybí.'}</p>
-                    </div>
+        listElement.innerHTML += `
+            <div class="lecture-card-v2">
+                <div class="date-badge">
+                    <span class="day">${day}</span>
+                    <span class="month">${month}</span>
+                    <span class="time">${time}</span>
                 </div>
-            `;
-        });
-    }
+                <div class="lecture-content">
+                    <div class="top-meta" style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px;">
+                        ${categoriesHtml}
+                        <span class="tag tag-loc">${displayLocation}</span>
+                        ${roomHtml}
+                    </div>
+                    <h2 class="title">${event.summary}</h2>
+                    <p class="description">${cleanDesc || 'Podrobnosti v popisu nebyly uvedeny.'}</p>
+                </div>
+            </div>
+        `;
+    });
+}
 
     // Filtry (zůstávají stejné)
     function filterData() {
