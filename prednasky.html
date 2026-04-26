@@ -69,132 +69,136 @@
         </div>
     </main>
 
-    <script>
-        const API_KEY = 'AIzaSyBYNhB9SMazhbLZ4AQG1OZQa7DxCKABmW0'; 
-        const CALENDAR_ID = 'vlcr.hlavni@gmail.com';
+<script>
+    const API_KEY = 'AIzaSyBYNhB9SMazhbLZ4AQG1OZQa7DxCKABmW0'; 
+    const CALENDAR_ID = 'vlcr.hlavni@gmail.com';
 
-        let allEvents = [];
+    let allEvents = [];
 
-        // Rozšířené slovníky
-        const knownCategories = [
-            'chemie', 'fyzika', 'technologie', 'biologie', 'matematika', 
-            'informatika', 'medicína', 'historie', 'věda', 'kosmonautika', 
-            'energetika', 'astronomie', 'psychologie', 'filozofie', 'ekonomie'
-        ];
+    // ROZŠÍŘENÉ OBORY
+    const knownCategories = [
+        'chemie', 'fyzika', 'technologie', 'biologie', 'matematika', 
+        'informatika', 'medicína', 'historie', 'věda', 'kosmonautika', 
+        'energetika', 'astronomie', 'psychologie', 'filozofie', 'ekonomie'
+    ];
 
-        const knownLocations = { 
-            '#čvut': 'ČVUT', '#uk': 'UK', '#všcht': 'VŠCHT', 
-            '#ntk': 'NTK', '#online': 'Online', '#vut': 'VUT Brno',
-            '#muni': 'MUNI Brno', '#zču': 'ZČU Plzeň', '#upol': 'UP Olomouc'
-        };
+    // ROZŠÍŘENÉ LOKALITY
+    const knownLocations = { 
+        '#čvut': 'ČVUT', '#uk': 'UK', '#všcht': 'VŠCHT', 
+        '#ntk': 'NTK', '#online': 'Online', '#vut': 'VUT Brno',
+        '#muni': 'MUNI Brno', '#zču': 'ZČU Plzeň', '#upol': 'UP Olomouc'
+    };
 
-        async function fetchLectures() {
-            // Bereme čas o 2 hodiny zpět, aby nezmizela přednáška, která právě probíhá
-            const offset = new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString();
-            const url = `https://www.googleapis.com/calendar/v3/calendars/${CALENDAR_ID}/events?key=${API_KEY}&timeMin=${offset}&singleEvents=true&orderBy=startTime`;
+    async function fetchLectures() {
+        // Zobrazujeme jen budoucí (max 2h staré)
+        const offset = new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString();
+        const url = `https://www.googleapis.com/calendar/v3/calendars/${CALENDAR_ID}/events?key=${API_KEY}&timeMin=${offset}&singleEvents=true&orderBy=startTime`;
 
-            try {
-                const response = await fetch(url);
-                const data = await response.json();
-                if (data.error) throw new Error(data.error.message);
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+            if (data.error) throw new Error(data.error.message);
 
-                allEvents = data.items || [];
-                renderLectures(allEvents);
-            } catch (error) {
-                console.error('Chyba:', error);
-                document.getElementById('lectures-list').innerHTML = `<p style="text-align:center; color: #ef4444;">Chyba při načítání.</p>`;
-            }
+            allEvents = data.items || [];
+            renderLectures(allEvents);
+        } catch (error) {
+            console.error('Chyba:', error);
+            document.getElementById('lectures-list').innerHTML = `<p style="text-align:center; color: #ef4444;">Chyba při načítání.</p>`;
+        }
+    }
+
+    function renderLectures(events) {
+        const listElement = document.getElementById('lectures-list');
+        listElement.innerHTML = '';
+
+        if (events.length === 0) {
+            listElement.innerHTML = '<p class="no-results">Žádné nadcházející přednášky nenalezeny.</p>';
+            return;
         }
 
-        function renderLectures(events) {
-            const listElement = document.getElementById('lectures-list');
-            listElement.innerHTML = '';
+        events.forEach(event => {
+            const start = new Date(event.start.dateTime || event.start.date);
+            const day = start.getDate();
+            const month = start.toLocaleString('cs-CZ', { month: 'short' }).toUpperCase().replace('.', '');
+            const time = start.toLocaleTimeString('cs-CZ', { hour: '2-digit', minute: '2-digit' });
 
-            if (events.length === 0) {
-                listElement.innerHTML = '<p class="no-results">Žádné nadcházející přednášky nenalezeny.</p>';
-                return;
-            }
+            const fullDesc = event.description || '';
+            const lowerDesc = fullDesc.toLowerCase();
+            
+            // 1. ZÍSKÁNÍ TAGŮ
+            const extractedTags = fullDesc.match(/#\S+/g) || [];
+            let lectureCategories = extractedTags
+                .map(tag => tag.replace('#', ''))
+                .filter(tag => knownCategories.includes(tag.toLowerCase()));
 
-            events.forEach(event => {
-                const start = new Date(event.start.dateTime || event.start.date);
-                const day = start.getDate();
-                const month = start.toLocaleString('cs-CZ', { month: 'short' }).toUpperCase().replace('.', '');
-                const time = start.toLocaleTimeString('cs-CZ', { hour: '2-digit', minute: '2-digit' });
+            if (lectureCategories.length === 0) lectureCategories = ['Přednáška'];
+            const categoriesHtml = lectureCategories
+                .map(cat => `<span class="tag tag-cat">${cat.charAt(0).toUpperCase() + cat.slice(1)}</span>`)
+                .join(' ');
 
-                const fullDesc = event.description || '';
-                const lowerDesc = fullDesc.toLowerCase();
-                
-                // 1. Tagy (Obory)
-                const extractedTags = fullDesc.match(/#\S+/g) || [];
-                let lectureCategories = extractedTags
-                    .map(tag => tag.replace('#', ''))
-                    .filter(tag => knownCategories.includes(tag.toLowerCase()));
+            // 2. MÍSTNOST ($)
+            const roomMatch = fullDesc.match(/\$(\S+)/);
+            const roomHtml = roomMatch ? `<span class="tag tag-room">${roomMatch[1]}</span>` : '';
 
-                if (lectureCategories.length === 0) lectureCategories = ['Přednáška'];
-                const categoriesHtml = lectureCategories
-                    .map(cat => `<span class="tag tag-cat">${cat.charAt(0).toUpperCase() + cat.slice(1)}</span>`)
-                    .join(' ');
-
-                // 2. Místnost
-                const roomMatch = fullDesc.match(/\$(\S+)/);
-                const roomHtml = roomMatch ? `<span class="tag tag-room">${roomMatch[1]}</span>` : '';
-
-                // 3. Lokalita
-                let displayLocation = event.location;
-                if (!displayLocation) {
-                    for (const [key, value] of Object.entries(knownLocations)) {
-                        if (lowerDesc.includes(key)) { displayLocation = value; break; }
-                    }
-                    if (!displayLocation) displayLocation = 'Místo upřesníme';
+            // 3. LOKALITA
+            let displayLocation = event.location;
+            if (!displayLocation) {
+                for (const [key, value] of Object.entries(knownLocations)) {
+                    if (lowerDesc.includes(key)) { displayLocation = value; break; }
                 }
+                if (!displayLocation) displayLocation = 'Místo upřesníme';
+            }
 
-                const cleanDesc = fullDesc.replace(/#\S+/g, '').replace(/\$\S+/g, '').trim();
+            // --- KLÍČOVÁ OPRAVA: Čištění HTML tagů z Google Kalendáře ---
+            const cleanDesc = fullDesc
+                .replace(/<[^>]*>?/gm, '') // SMAŽE VŠECHNY HTML TAGY (nadpisy, tučné, atd.)
+                .replace(/#\S+/g, '')     // Smaže hashtagy
+                .replace(/\$\S+/g, '')     // Smaže místnosti
+                .trim();
 
-                listElement.innerHTML += `
-                    <div class="lecture-card-v2">
-                        <div class="date-badge">
-                            <span class="day">${day}</span>
-                            <span class="month">${month}</span>
-                            <span class="time">${time}</span>
-                        </div>
-                        <div class="lecture-content">
-                            <div class="top-meta" style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px;">
-                                ${categoriesHtml}
-                                <span class="tag tag-loc">${displayLocation}</span>
-                                ${roomHtml}
-                            </div>
-                            <h2 class="title">${event.summary}</h2>
-                            <p class="description">${cleanDesc || 'Podrobnosti v popisu chybí.'}</p>
-                        </div>
+            listElement.innerHTML += `
+                <div class="lecture-card-v2">
+                    <div class="date-badge">
+                        <span class="day">${day}</span>
+                        <span class="month">${month}</span>
+                        <span class="time">${time}</span>
                     </div>
-                `;
-            });
-        }
+                    <div class="lecture-content">
+                        <div class="top-meta" style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px;">
+                            ${categoriesHtml}
+                            <span class="tag tag-loc">${displayLocation}</span>
+                            ${roomHtml}
+                        </div>
+                        <h2 class="title">${event.summary}</h2>
+                        <p class="description">${cleanDesc || 'Podrobnosti v popisu chybí.'}</p>
+                    </div>
+                </div>
+            `;
+        });
+    }
 
-        function filterData() {
-            const searchText = document.getElementById('searchInput').value.toLowerCase();
-            const category = document.getElementById('categoryFilter').value.toLowerCase();
-            const location = document.getElementById('locationFilter').value.toLowerCase();
+    // Filtry (zůstávají stejné)
+    function filterData() {
+        const searchText = document.getElementById('searchInput').value.toLowerCase();
+        const category = document.getElementById('categoryFilter').value.toLowerCase();
+        const location = document.getElementById('locationFilter').value.toLowerCase();
 
-            const filtered = allEvents.filter(event => {
-                const title = (event.summary || '').toLowerCase();
-                const desc = (event.description || '').toLowerCase();
-                const loc = (event.location || '').toLowerCase();
-                
-                const matchesSearch = title.includes(searchText) || desc.includes(searchText);
-                const matchesCat = category === 'all' || desc.includes('#' + category);
-                const matchesLoc = location === 'all' || loc.includes(location) || desc.includes('#' + location);
+        const filtered = allEvents.filter(event => {
+            const title = (event.summary || '').toLowerCase();
+            const desc = (event.description || '').toLowerCase();
+            const loc = (event.location || '').toLowerCase();
+            const matchesSearch = title.includes(searchText) || desc.includes(searchText);
+            const matchesCat = category === 'all' || desc.includes('#' + category);
+            const matchesLoc = location === 'all' || loc.includes(location) || desc.includes('#' + location);
+            return matchesSearch && matchesCat && matchesLoc;
+        });
+        renderLectures(filtered);
+    }
 
-                return matchesSearch && matchesCat && matchesLoc;
-            });
-            renderLectures(filtered);
-        }
-
-        document.getElementById('searchInput').addEventListener('input', filterData);
-        document.getElementById('categoryFilter').addEventListener('change', filterData);
-        document.getElementById('locationFilter').addEventListener('change', filterData);
-        
-        fetchLectures();
-    </script>
+    document.getElementById('searchInput').addEventListener('input', filterData);
+    document.getElementById('categoryFilter').addEventListener('change', filterData);
+    document.getElementById('locationFilter').addEventListener('change', filterData);
+    fetchLectures();
+</script>
 </body>
 </html>
