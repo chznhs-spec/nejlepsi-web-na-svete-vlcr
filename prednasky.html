@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
-        /* Jen drobný doplněk pro barvu místnosti, aby se nepletla s obory */
         .tag-room { background: #f1f5f9 !important; color: #475569 !important; border: 1px solid #e2e8f0 !important; }
     </style>
 </head>
@@ -40,18 +39,26 @@
                     <option value="Chemie">Chemie</option>
                     <option value="Fyzika">Fyzika</option>
                     <option value="Technologie">Technologie</option>
+                    <option value="Kosmonautika">Kosmonautika</option>
+                    <option value="Energetika">Energetika</option>
                     <option value="Biologie">Biologie</option>
                     <option value="Matematika">Matematika</option>
                     <option value="Informatika">Informatika</option>
                     <option value="Medicína">Medicína</option>
                     <option value="Historie">Historie</option>
+                    <option value="Psychologie">Psychologie</option>
                 </select>
 
                 <select id="locationFilter">
                     <option value="all">Kdekoliv</option>
-                    <option value="čvut">ČVUT</option>
-                    <option value="uk">UK</option>
-                    <option value="všcht">VŠCHT</option>
+                    <option value="čvut">ČVUT (Praha)</option>
+                    <option value="všcht">VŠCHT (Praha)</option>
+                    <option value="uk">UK (Praha)</option>
+                    <option value="vut">VUT (Brno)</option>
+                    <option value="muni">MUNI (Brno)</option>
+                    <option value="zču">ZČU (Plzeň)</option>
+                    <option value="upol">UP (Olomouc)</option>
+                    <option value="ntk">NTK</option>
                     <option value="online">Online</option>
                 </select>
             </div>
@@ -63,34 +70,39 @@
     </main>
 
     <script>
-        // KONFIGURACE
         const API_KEY = 'AIzaSyBYNhB9SMazhbLZ4AQG1OZQa7DxCKABmW0'; 
         const CALENDAR_ID = 'vlcr.hlavni@gmail.com';
 
         let allEvents = [];
 
-        // Slovníky pro chytrou detekci
-        const knownCategories = ['chemie', 'fyzika', 'technologie', 'biologie', 'matematika', 'informatika', 'medicína', 'historie', 'věda'];
-        const knownLocations = { '#čvut': 'ČVUT', '#uk': 'UK', '#všcht': 'VŠCHT', '#ntk': 'NTK', '#online': 'Online' };
+        // Rozšířené slovníky
+        const knownCategories = [
+            'chemie', 'fyzika', 'technologie', 'biologie', 'matematika', 
+            'informatika', 'medicína', 'historie', 'věda', 'kosmonautika', 
+            'energetika', 'astronomie', 'psychologie', 'filozofie', 'ekonomie'
+        ];
+
+        const knownLocations = { 
+            '#čvut': 'ČVUT', '#uk': 'UK', '#všcht': 'VŠCHT', 
+            '#ntk': 'NTK', '#online': 'Online', '#vut': 'VUT Brno',
+            '#muni': 'MUNI Brno', '#zču': 'ZČU Plzeň', '#upol': 'UP Olomouc'
+        };
 
         async function fetchLectures() {
-            const now = new Date().toISOString();
-            const url = `https://www.googleapis.com/calendar/v3/calendars/${CALENDAR_ID}/events?key=${API_KEY}&timeMin=${now}&singleEvents=true&orderBy=startTime`;
+            // Bereme čas o 2 hodiny zpět, aby nezmizela přednáška, která právě probíhá
+            const offset = new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString();
+            const url = `https://www.googleapis.com/calendar/v3/calendars/${CALENDAR_ID}/events?key=${API_KEY}&timeMin=${offset}&singleEvents=true&orderBy=startTime`;
 
             try {
                 const response = await fetch(url);
                 const data = await response.json();
-                
                 if (data.error) throw new Error(data.error.message);
 
                 allEvents = data.items || [];
                 renderLectures(allEvents);
             } catch (error) {
-                console.error('Chyba při načítání:', error);
-                document.getElementById('lectures-list').innerHTML = `
-                    <p style="text-align:center; color: #ef4444; padding: 20px;">
-                        <b>Chyba při propojení s kalendářem.</b>
-                    </p>`;
+                console.error('Chyba:', error);
+                document.getElementById('lectures-list').innerHTML = `<p style="text-align:center; color: #ef4444;">Chyba při načítání.</p>`;
             }
         }
 
@@ -99,7 +111,7 @@
             listElement.innerHTML = '';
 
             if (events.length === 0) {
-                listElement.innerHTML = '<p class="no-results">Momentálně nejsou naplánovány žádné přednášky.</p>';
+                listElement.innerHTML = '<p class="no-results">Žádné nadcházející přednášky nenalezeny.</p>';
                 return;
             }
 
@@ -112,23 +124,22 @@
                 const fullDesc = event.description || '';
                 const lowerDesc = fullDesc.toLowerCase();
                 
-                // 1. OBORY
+                // 1. Tagy (Obory)
                 const extractedTags = fullDesc.match(/#\S+/g) || [];
                 let lectureCategories = extractedTags
                     .map(tag => tag.replace('#', ''))
                     .filter(tag => knownCategories.includes(tag.toLowerCase()));
 
                 if (lectureCategories.length === 0) lectureCategories = ['Přednáška'];
-
                 const categoriesHtml = lectureCategories
                     .map(cat => `<span class="tag tag-cat">${cat.charAt(0).toUpperCase() + cat.slice(1)}</span>`)
                     .join(' ');
 
-                // 2. MÍSTNOST (Hledá symbol $)
+                // 2. Místnost
                 const roomMatch = fullDesc.match(/\$(\S+)/);
                 const roomHtml = roomMatch ? `<span class="tag tag-room">${roomMatch[1]}</span>` : '';
 
-                // 3. LOKALITA
+                // 3. Lokalita
                 let displayLocation = event.location;
                 if (!displayLocation) {
                     for (const [key, value] of Object.entries(knownLocations)) {
@@ -137,10 +148,8 @@
                     if (!displayLocation) displayLocation = 'Místo upřesníme';
                 }
 
-                // 4. VYČIŠTĚNÍ TEXTU (Smaže # i $)
                 const cleanDesc = fullDesc.replace(/#\S+/g, '').replace(/\$\S+/g, '').trim();
 
-                // 5. VYKRESLENÍ
                 listElement.innerHTML += `
                     <div class="lecture-card-v2">
                         <div class="date-badge">
@@ -155,7 +164,7 @@
                                 ${roomHtml}
                             </div>
                             <h2 class="title">${event.summary}</h2>
-                            <p class="description">${cleanDesc || 'Bez popisu.'}</p>
+                            <p class="description">${cleanDesc || 'Podrobnosti v popisu chybí.'}</p>
                         </div>
                     </div>
                 `;
@@ -171,9 +180,11 @@
                 const title = (event.summary || '').toLowerCase();
                 const desc = (event.description || '').toLowerCase();
                 const loc = (event.location || '').toLowerCase();
+                
                 const matchesSearch = title.includes(searchText) || desc.includes(searchText);
                 const matchesCat = category === 'all' || desc.includes('#' + category);
                 const matchesLoc = location === 'all' || loc.includes(location) || desc.includes('#' + location);
+
                 return matchesSearch && matchesCat && matchesLoc;
             });
             renderLectures(filtered);
@@ -182,6 +193,7 @@
         document.getElementById('searchInput').addEventListener('input', filterData);
         document.getElementById('categoryFilter').addEventListener('change', filterData);
         document.getElementById('locationFilter').addEventListener('change', filterData);
+        
         fetchLectures();
     </script>
 </body>
