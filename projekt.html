@@ -9,7 +9,6 @@
     <title>Projekty | VLČR</title>
     <link rel="icon" type="image/png" href="logo_VLCR.png" />
     <link rel="stylesheet" href="styles.css" />
-
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -19,15 +18,10 @@
   </head>
   <body>
     <section class="menu">
-      <a
-        href="index.html"
-        class="horizontal-flex"
-        style="justify-content: flex-start"
-      >
+      <a href="index.html" class="horizontal-flex" style="justify-content: flex-start">
         <img src="logo_VLCR.png" alt="Logo VLČR" class="logo" />
         <p class="logo-placeholder">Vzdělaný lid České republiky</p>
       </a>
-
       <section class="menu-text">
         <a href="projekt.html" class="menu-item">Projekty</a>
         <a href="novinki.html" class="menu-item">Novinky</a>
@@ -35,27 +29,19 @@
         <a href="kontakt.html" class="menu-item">Kontakt</a>
       </section>
     </section>
+
     <section class="content" style="margin-top: 10px">
       <section class="vertical-flex">
         <h1 style="opacity: 0.8; font-size: 10cap">Projekty</h1>
         <div class="horizontal-flex">
           <div class="slider" style="margin-bottom: 50px">
             <div class="slides">
-              <div class="slide">
-                <img src="foto3-divadlo.jpeg" alt="Obrázek 1" />
-              </div>
-              <div class="slide">
-                <img src="foto4.jpeg" alt="Obrázek 2" />
-              </div>
-              <div class="slide">
-                <img src="foto1.jpeg" alt="Obrázek 3" />
-              </div>
-              <div class="slide">
-                <img src="foto2.jpeg" alt="Obrázek 4" />
-              </div>
+              <div class="slide"><img src="foto3-divadlo.jpeg" alt="Obrázek 1" /></div>
+              <div class="slide"><img src="foto4.jpeg" alt="Obrázek 2" /></div>
+              <div class="slide"><img src="foto1.jpeg" alt="Obrázek 3" /></div>
+              <div class="slide"><img src="foto2.jpeg" alt="Obrázek 4" /></div>
             </div>
           </div>
-
           <div class="container">
             <div class="container2">
               <p style="min-width: 600px; align-self: baseline">
@@ -69,25 +55,20 @@
           </div>
         </div>
       </section>
+
       <div class="separator-full"></div>
+
       <section class="vertical-flex">
+
+        <!-- 1. DIVADLO — carousel VLEVO, text VPRAVO -->
         <div class="horizontal-flex">
           <div class="carousel2">
             <div class="slides2" id="slides2">
-              <div class="slide2">
-                <img src="foto3-divadlo.jpeg" />
-              </div>
-              <div class="slide2">
-                <img src="foto5-divadlo.jpeg" />
-              </div>
-              <div class="slide2">
-                <img src="foto6-divadlo.jpeg" />
-              </div>
-              <div class="slide2">
-                <img src="divadlo.jpeg" />
-              </div>
+              <div class="slide2"><img src="foto3-divadlo.jpeg" /></div>
+              <div class="slide2"><img src="foto5-divadlo.jpeg" /></div>
+              <div class="slide2"><img src="foto6-divadlo.jpeg" /></div>
+              <div class="slide2"><img src="divadlo.jpeg" /></div>
             </div>
-
             <div class="arrow2 left2" id="prev2">&#10094;</div>
             <div class="arrow2 right2" id="next2">&#10095;</div>
           </div>
@@ -96,16 +77,13 @@
             const slides2 = document.getElementById("slides2");
             const total2 = slides2.children.length;
             let index2 = 0;
-
             function updateSlide2() {
               slides2.style.transform = `translateX(${-index2 * 100}%)`;
             }
-
             document.getElementById("next2").onclick = () => {
               index2 = (index2 + 1) % total2;
               updateSlide2();
             };
-
             document.getElementById("prev2").onclick = () => {
               index2 = (index2 - 1 + total2) % total2;
               updateSlide2();
@@ -114,12 +92,7 @@
 
           <div class="container">
             <div class="container2">
-              <h1>
-                <em style="opacity: 0.8; text-align: center">
-                  Automatizace tradičního vietnamského vodního loutkového
-                  divadla</em
-                >
-              </h1>
+              <h1><em style="opacity: 0.8; text-align: center">Automatizace tradičního vietnamského vodního loutkového divadla</em></h1>
               <div class="separator"></div>
               <p style="min-width: 600px">
                 Projekt propojuje tradiční vietnamské vodní loutkové divadlo s
@@ -132,20 +105,21 @@
             </div>
           </div>
         </div>
+
         <div class="separator-full" style="margin: 50px"></div>
+
+        <!-- 2. MANTINEL — text VLEVO, obrázek VPRAVO -->
         <div class="horizontal-flex">
           <div class="container">
             <div class="container2">
-              <h1>
-                <em style="opacity: 0.8"> Robot "Mantinel"</em>
-              </h1>
+              <h1><em style="opacity: 0.8">Robot "Mantinel"</em></h1>
               <div class="separator"></div>
               <p style="min-width: 600px">
                 Jedním z našich projektů je vývoj vzdělávacího open-source
-                robota "Mantinel", který pomáhá ve vdělávání v oblasti
+                robota "Mantinel", který pomáhá ve vzdělávání v oblasti
                 autonomního řízení robotů v prostředí plným překážek. Vzdálenost
                 měří pomocí ultrazvukového senzoru a celý systém řídí vlastní
-                „mozek“ v podobě plošného spoje, který byl navržen speciálně pro
+                „mozek" v podobě plošného spoje, který byl navržen speciálně pro
                 robota Mantinel. Více informací
                 <a href="https://robinsafarik.cz" target="_blank">zde</a>
               </p>
@@ -153,19 +127,39 @@
           </div>
           <img src="foto4.jpeg" alt="Obrázek projektu 'Mantinel'" width="30%" />
         </div>
+
         <div class="separator-full" style="margin: 50px"></div>
+
+        <!-- 3. PŘEDNÁŠKY — obrázek VLEVO, text VPRAVO -->
         <div class="horizontal-flex">
           <img
-            src="pocitac.jpeg"
-            alt="Počítač"
-            style="width: 30%; object-fit: cover; height: 20vw"
+            src="logo_prednasky.png"
+            alt="Obrázek projektu 'Vyhledávač přednášek'"
+            width="30%"
           />
-
           <div class="container">
             <div class="container2">
-              <h1>
-                <em style="opacity: 0.8"> Druhý život E-odpadu </em>
-              </h1>
+              <h1><em style="opacity: 0.8">Vyhledávač přednášek</em></h1>
+              <div class="separator"></div>
+              <p style="min-width: 600px">
+                Studentská iniciativa VLČR vyvinula unikátní databázi, která
+                sjednocuje roztříštěné akademické programy. Projekt pomáhá
+                studentům v orientaci napříč obory a zpřístupňuje vědu veřejnosti.
+                Je to ukázka toho, jak studentské nadšení vytváří funkční nástroj
+                pro český vzdělávací prostor.
+              </p>
+                <a href="https://vzdelanylid.cz/prednasky" class="button-17" style="width: fit-content; margin-top: 20px; text-decoration: none;">Přejít na vyhledávač přednášek</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="separator-full" style="margin: 50px"></div>
+
+        <!-- 4. E-ODPAD — text VLEVO, obrázek VPRAVO -->
+        <div class="horizontal-flex">
+          <div class="container">
+            <div class="container2">
+              <h1><em style="opacity: 0.8">Druhý život E-odpadu</em></h1>
               <div class="separator"></div>
               <p style="min-width: 600px">
                 Hugo Albrecht, dlouholetý člen VLČR, se věnuje stavbě počítače z
@@ -176,34 +170,40 @@
               </p>
             </div>
           </div>
+          <img
+            src="pocitac.jpeg"
+            alt="Počítač"
+            style="width: 30%; object-fit: cover; height: 20vw"
+          />
         </div>
-        
-        <div class="separator-full" style="margin: 50px"></div>
-        
-        <div class="horizontal-flex">
-          <div class="container">
-            <div class="container2">
-              <h1>
-                <em style="opacity: 0.8">#kčemumitobude</em>
-              </h1>
-              <div class="separator"></div>
-              <p style="min-width: 600px">
-                Kčemumitobude je filozofický směr, jehož zakladatelem je Lukáš Horák z VLČR za odporné pomoci pana Šimečka. Jde o motivaci žáků ke studiu matematiky, fyziky a počítačové vědy.
-                <br><br>
-              </p>
-              <a href="https://vzdelanylid.cz/kcemumitobude" class="button-17" style="width: fit-content; margin-top: 20px; text-decoration: none;">Více o #kčemumitobude</a>
-            </div>
-          </div>
-          <img src="kcemumitobude.jpeg" alt="Obrázek projektu '#kčemumitobude'" width="30%" />
-        </div>
+
         <div class="separator-full" style="margin: 50px"></div>
 
+        <!-- 5. KČEMUMITOBUDE — obrázek VLEVO, text VPRAVO -->
+        <div class="horizontal-flex">
+          <img src="kcemumitobude.jpeg" alt="Obrázek projektu '#kčemumitobude'" width="30%" />
+          <div class="container">
+            <div class="container2">
+              <h1><em style="opacity: 0.8">#kčemumitobude</em></h1>
+              <div class="separator"></div>
+              <p style="min-width: 600px">
+                Kčemumitobude je filozofický směr, jehož zakladatelem je Lukáš Horák z VLČR
+                za odporné pomoci pana Šimečka. Jde o motivaci žáků ke studiu matematiky,
+                fyziky a počítačové vědy.
+                <br><br>
+              </p>
+                <a href="https://vzdelanylid.cz/kcemumitobude" class="button-17" style="width: fit-content; margin-top: 20px; text-decoration: none;">Více o #kčemumitobude</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="separator-full" style="margin: 50px"></div>
+
+        <!-- PROPAGAČNÍ PŘEDMĚTY — bez obrázku po boku, zůstává vertikálně -->
         <div class="vertical-flex">
           <div class="container">
             <div class="container2">
-              <h1>
-                <em style="opacity: 0.8">Propagační předměty</em>
-              </h1>
+              <h1><em style="opacity: 0.8">Propagační předměty</em></h1>
               <div class="separator"></div>
               <p style="width: 50vw">
                 Vzdělaný lid České republiky vyrábí vlastní propagační předměty,
@@ -216,28 +216,15 @@
           </div>
         </div>
         <div class="horizontal-flex">
-          <img
-            class="propagace"
-            src="fotoPredmety.jpeg"
-            alt="Propagační předměty VLČR"
-            width="30%"
-          />
-          <img
-            class="propagace"
-            src="fotoCukrovi.jpeg"
-            alt="Vykrajovátka VLČR"
-            width="30%"
-          />
-          <img
-            class="propagace"
-            src="stavebnice.jpeg"
-            alt="Stavebnice VLČR"
-            width="30%"
-          />
+          <img class="propagace" src="fotoPredmety.jpeg" alt="Propagační předměty VLČR" width="30%" />
+          <img class="propagace" src="fotoCukrovi.jpeg" alt="Vykrajovátka VLČR" width="30%" />
+          <img class="propagace" src="stavebnice.jpeg" alt="Stavebnice VLČR" width="30%" />
         </div>
+
       </section>
       <div class="separator-full"></div>
     </section>
+
     <div class="botnik">
       <footer class="botnik">
         © 2025 - 2026 VLČR — Vzdělaný lid České republiky
@@ -245,5 +232,3 @@
     </div>
   </body>
 </html>
-
-
