@@ -213,22 +213,20 @@ const linkHtml = linkUrl ? `
             }
 
 // 6. FINÁLNÍ VYČIŠTĚNÍ TEXTU PRO ZOBRAZENÍ
-const cleanDesc = plainText
+let cleanDesc = plainText
     .replace(/#\S+/g, '')
     .replace(/\$\S+/g, '')
-    .replace(/\^https?:\/\/\S+/gi, '')  // stříška + URL (původní případ)
-    .replace(/\^\s*/g, '')              // samotná stříška bez URL (zbytek po odebrání <a> tagu)
-    + (linkUrl ? ` ${linkUrl.replace(/https?:\/\/\S+/g, '')}` : '') // nic nepřidávat
-    
-// Lepší řešení - pokud máme linkUrl, smažeme ho přímo z textu:
-const cleanDesc = plainText
-    .replace(/#\S+/g, '')
-    .replace(/\$\S+/g, '')
-    .replace(/\^https?:\/\/\S+/gi, '')   // varianta se stříškou přilepenou k URL
-    .replace(/\^\s*/g, '')               // samotná zbylá stříška
-    .replace(linkUrl ? linkUrl.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') : /(?!)/, '') // samotná URL bez stříšky
-    .trim();
+    .replace(/\^https?:\/\/\S+/gi, '')  // ^ přilepená k URL
+    .replace(/\^\s*/g, '');             // zbylá stříška samotná
 
+// Pokud Google URL oddělil od stříšky, smažeme ji jako holý text
+if (linkUrl) {
+    const escapedUrl = linkUrl.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    cleanDesc = cleanDesc.replace(new RegExp(escapedUrl, 'gi'), '');
+}
+
+cleanDesc = cleanDesc.trim();
+            
             listElement.innerHTML += `
                 <div class="lecture-card-v2">
                     <div class="date-badge">
