@@ -146,11 +146,11 @@ function renderLectures(events) {
             const month = start.toLocaleString('cs-CZ', { month: 'short' }).toUpperCase().replace('.', '');
             const time = start.toLocaleTimeString('cs-CZ', { hour: '2-digit', minute: '2-digit' });
 
-            // NEJDŮLEŽITĚJŠÍ ZMĚNA: Nejdřív vyčistíme popis od skrytého HTML kódu z Google kalendáře
+            // --- KLÍČOVÁ ZMĚNA: Nejdřív vyčistíme popis od skrytého HTML kódu z Google kalendáře ---
             const rawDesc = event.description || '';
-            const plainText = rawDesc.replace(/<[^>]*>?/gm, ' '); // Odstraní skryté značky <a>, <div> atd.
+            const plainText = rawDesc.replace(/<[^>]*>?/gm, ' '); // Odstraní HTML tagy (<a>, <b> atd.)
 
-            // 1. EXTRAKCE TAGŮ (hledáme v čistém textu)
+            // 1. EXTRAKCE TAGŮ (Obory - hledáme v čistém textu)
             const extractedTags = plainText.match(/#\S+/g) || [];
             let lectureCategories = extractedTags
                 .map(tag => tag.replace('#', ''))
@@ -161,12 +161,12 @@ function renderLectures(events) {
                 .map(cat => `<span class="tag tag-cat">${cat.charAt(0).toUpperCase() + cat.slice(1)}</span>`)
                 .join(' ');
 
-            // 2. EXTRAKCE MÍSTNOSTI ($)
+            // 2. EXTRAKCE MÍSTNOSTI ($) - hledáme v čistém textu
             const roomMatch = plainText.match(/\$(\S+)/);
             const roomHtml = roomMatch ? `<span class="tag tag-room">${roomMatch[1]}</span>` : '';
 
-            // 3. EXTRAKCE ODKAZU (^) - teď už vytáhne čistou URL bez HTML značek
-            const linkMatch = plainText.match(/\^(\S+)/);
+            // 3. EXTRAKCE ODKAZU (^) - hledáme v čistém textu a odstraníme případnou mezeru
+            const linkMatch = plainText.match(/\^?\s*(\S+)/);
             const linkUrl = linkMatch ? linkMatch[1] : null;
             const linkHtml = linkUrl ? `
                 <a href="${linkUrl}" target="_blank" class="lecture-link">
@@ -181,10 +181,10 @@ function renderLectures(events) {
                 for (const [key, value] of Object.entries(knownLocations)) {
                     if (lowerText.includes(key)) { displayLocation = value; break; }
                 }
-                if (!displayLocation) displayLocation = 'V textu';
+                if (!displayLocation) displayLocation = 'Místo upřesníme';
             }
 
-            // 5. FINÁLNÍ TEXT PRO ZOBRAZENÍ
+            // 5. SANITACE TEXTU (Čistí hashtagy, místnosti i ODKAZY z čistého textu)
             const cleanDesc = plainText
                 .replace(/#\S+/g, '')     
                 .replace(/\$\S+/g, '')     
@@ -205,7 +205,7 @@ function renderLectures(events) {
                             ${roomHtml}
                         </div>
                         <h2 class="title">${event.summary}</h2>
-                        <p class="description">${cleanDesc || 'Podrobnosti v popisu nebyly uvedeny.'}</p>
+                        <p class="description">${cleanDesc || 'Podrobnosti v popisu chybí.'}</p>
                         ${linkHtml}
                     </div>
                 </div>
