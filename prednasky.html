@@ -165,14 +165,42 @@ function renderLectures(events) {
             const roomMatch = plainText.match(/\$(\S+)/);
             const roomHtml = roomMatch ? `<span class="tag tag-room">${roomMatch[1]}</span>` : '';
 
-            // 4. EXTRAKCE ODKAZU (^) - OPRAVENO: Hledá přesně stříšku a pak URL začínající http
-            const linkMatch = plainText.match(/\^(https?:\/\/\S+)/i);
-            const linkUrl = linkMatch ? linkMatch[1] : null;
-            const linkHtml = linkUrl ? `
-                <a href="${linkUrl}" target="_blank" class="lecture-link">
-                    Více informací
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-                </a>` : '';
+// 4. EXTRAKCE ODKAZU (^) - hledá v rawDesc PŘED odstraněním HTML tagů
+// Google Calendar může mít URL buď jako text "^https://..." nebo v href atributu u "^" textu
+
+let linkUrl = null;
+
+// Varianta A: stříška je přímo v textu (bez HTML obalení)
+const linkMatchPlain = plainText.match(/\^(https?:\/\/\S+)/i);
+if (linkMatchPlain) {
+    linkUrl = linkMatchPlain[1];
+}
+
+// Varianta B: Google obalil odkaz do <a href="...">^...</a> nebo podobně
+// Hledáme <a> tag, jehož text (nebo href) sousedí se stříškou
+if (!linkUrl) {
+    // Zkusíme najít href v blízkosti znaku ^
+    const caretHrefMatch = rawDesc.match(/\^[^<]*<a[^>]+href="(https?:\/\/[^"]+)"/i);
+    if (!caretHrefMatch) {
+        // Nebo: ^ je uvnitř nebo těsně před <a href="...">
+        const hrefNearCaret = rawDesc.match(/\^.*?href="(https?:\/\/[^"]+)"/i);
+        if (hrefNearCaret) linkUrl = hrefNearCaret[1];
+    } else {
+        linkUrl = caretHrefMatch[1];
+    }
+}
+
+// Varianta C: <a href="..."> jehož textový obsah obsahuje ^ nebo URL za ^
+if (!linkUrl) {
+    const anchorMatch = rawDesc.match(/<a[^>]+href="(https?:\/\/[^"]+)"[^>]*>[^<]*\^/i);
+    if (anchorMatch) linkUrl = anchorMatch[1];
+}
+
+const linkHtml = linkUrl ? `
+    <a href="${linkUrl}" target="_blank" class="lecture-link">
+        Více informací
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+    </a>` : '';
 
             // 5. URČENÍ LOKALITY
             let displayLocation = event.location;
