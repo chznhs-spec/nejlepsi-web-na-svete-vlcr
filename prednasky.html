@@ -212,12 +212,22 @@ const linkHtml = linkUrl ? `
                 if (!displayLocation) displayLocation = 'V textu';
             }
 
-            // 6. FINÁLNÍ VYČIŠTĚNÍ TEXTU PRO ZOBRAZENÍ
-            const cleanDesc = plainText
-                .replace(/#\S+/g, '')     
-                .replace(/\$\S+/g, '')     
-                .replace(/\^https?:\/\/\S+/gi, '') // Smaže přesně ten odkaz se stříškou
-                .trim();
+// 6. FINÁLNÍ VYČIŠTĚNÍ TEXTU PRO ZOBRAZENÍ
+const cleanDesc = plainText
+    .replace(/#\S+/g, '')
+    .replace(/\$\S+/g, '')
+    .replace(/\^https?:\/\/\S+/gi, '')  // stříška + URL (původní případ)
+    .replace(/\^\s*/g, '')              // samotná stříška bez URL (zbytek po odebrání <a> tagu)
+    + (linkUrl ? ` ${linkUrl.replace(/https?:\/\/\S+/g, '')}` : '') // nic nepřidávat
+    
+// Lepší řešení - pokud máme linkUrl, smažeme ho přímo z textu:
+const cleanDesc = plainText
+    .replace(/#\S+/g, '')
+    .replace(/\$\S+/g, '')
+    .replace(/\^https?:\/\/\S+/gi, '')   // varianta se stříškou přilepenou k URL
+    .replace(/\^\s*/g, '')               // samotná zbylá stříška
+    .replace(linkUrl ? linkUrl.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') : /(?!)/, '') // samotná URL bez stříšky
+    .trim();
 
             listElement.innerHTML += `
                 <div class="lecture-card-v2">
