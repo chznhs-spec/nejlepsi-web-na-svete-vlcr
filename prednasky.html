@@ -131,7 +131,7 @@
         }
     }
 
-    function renderLectures(events) {
+function renderLectures(events) {
         const listElement = document.getElementById('lectures-list');
         listElement.innerHTML = '';
 
@@ -146,11 +146,12 @@
             const month = start.toLocaleString('cs-CZ', { month: 'short' }).toUpperCase().replace('.', '');
             const time = start.toLocaleTimeString('cs-CZ', { hour: '2-digit', minute: '2-digit' });
 
-            const fullDesc = event.description || '';
-            const lowerDesc = fullDesc.toLowerCase();
-            
-            // 1. EXTRAKCE TAGŮ
-            const extractedTags = fullDesc.match(/#\S+/g) || [];
+            // NEJDŮLEŽITĚJŠÍ ZMĚNA: Nejdřív vyčistíme popis od skrytého HTML kódu z Google kalendáře
+            const rawDesc = event.description || '';
+            const plainText = rawDesc.replace(/<[^>]*>?/gm, ' '); // Odstraní skryté značky <a>, <div> atd.
+
+            // 1. EXTRAKCE TAGŮ (hledáme v čistém textu)
+            const extractedTags = plainText.match(/#\S+/g) || [];
             let lectureCategories = extractedTags
                 .map(tag => tag.replace('#', ''))
                 .filter(tag => knownCategories.includes(tag.toLowerCase()));
@@ -161,11 +162,11 @@
                 .join(' ');
 
             // 2. EXTRAKCE MÍSTNOSTI ($)
-            const roomMatch = fullDesc.match(/\$(\S+)/);
+            const roomMatch = plainText.match(/\$(\S+)/);
             const roomHtml = roomMatch ? `<span class="tag tag-room">${roomMatch[1]}</span>` : '';
 
-            // 3. EXTRAKCE ODKAZU (^)
-            const linkMatch = fullDesc.match(/\^(\S+)/);
+            // 3. EXTRAKCE ODKAZU (^) - teď už vytáhne čistou URL bez HTML značek
+            const linkMatch = plainText.match(/\^(\S+)/);
             const linkUrl = linkMatch ? linkMatch[1] : null;
             const linkHtml = linkUrl ? `
                 <a href="${linkUrl}" target="_blank" class="lecture-link">
@@ -173,21 +174,21 @@
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
                 </a>` : '';
 
-            // 4. DETERMINACE LOKALITY
+            // 4. LOKALITA
             let displayLocation = event.location;
             if (!displayLocation) {
+                const lowerText = plainText.toLowerCase();
                 for (const [key, value] of Object.entries(knownLocations)) {
-                    if (lowerDesc.includes(key)) { displayLocation = value; break; }
+                    if (lowerText.includes(key)) { displayLocation = value; break; }
                 }
                 if (!displayLocation) displayLocation = 'Místo upřesníme';
             }
 
-            // 5. SANITACE TEXTU (Čistí HTML, tagy, místnosti i ODKAZY)
-            const cleanDesc = fullDesc
-                .replace(/<[^>]*>?/gm, '') 
+            // 5. FINÁLNÍ TEXT PRO ZOBRAZENÍ
+            const cleanDesc = plainText
                 .replace(/#\S+/g, '')     
                 .replace(/\$\S+/g, '')     
-                .replace(/\^\S+/g, '')     // Odstraní symbol ^ a odkaz z textu popisu
+                .replace(/\^\S+/g, '')     
                 .trim();
 
             listElement.innerHTML += `
