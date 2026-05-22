@@ -34,6 +34,32 @@
         .lecture-link svg {
             margin-left: 8px;
         }
+
+        /* Styl pro info banner během zkouškového */
+        .exam-banner {
+            background-color: #f0fdfa;
+            border: 1px solid #ccfbf1;
+            border-left: 5px solid #004251;
+            padding: 16px 20px;
+            border-radius: 8px;
+            margin: 0 auto 25px auto;
+            max-width: 1200px;
+            font-family: 'Manrope', sans-serif;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            display: none; /* Výchozí stav je skrytý, zapíná se skriptem */
+        }
+        .exam-banner h3 {
+            margin: 0 0 6px 0;
+            color: #004251;
+            font-size: 16px;
+            font-weight: 700;
+        }
+        .exam-banner p {
+            margin: 0;
+            color: #334155;
+            font-size: 14px;
+            line-height: 1.5;
+        }
     </style>
 </head>
 <body class="lectures-page">
@@ -54,6 +80,11 @@
     <main class="content">
         <div class="search-header-v2">
             <h1 class="search-title">Vyhledávač přednášek</h1>
+        </div>
+
+        <div id="examBanner" class="exam-banner">
+            <h3>🎓 Zkouškové období v plném proudu</h3>
+            <p>Vzhledem k aktuálnímu zkouškovému období je akademický program omezen a na univerzitách se koná méně veřejných přednášek. Všem studentům přejeme pevné nervy a hodně štěstí u zkoušek! – <strong>VLČR</strong></p>
         </div>
 
         <section class="filter-section">
@@ -97,6 +128,12 @@
     </main>
 
 <script>
+    // =========================================================================
+    // HLAVNÍ PŘEPÍNAČ PRO ZKOUŠKOVÉ OBDOBÍ
+    // true = banner se zobrazí | false = banner zůstane skrytý
+    const IS_EXAM_SEASON = true; 
+    // =========================================================================
+
     const API_KEY = 'AIzaSyBYNhB9SMazhbLZ4AQG1OZQa7DxCKABmW0'; 
     const CALENDAR_ID = 'vlcr.hlavni@gmail.com';
 
@@ -113,6 +150,16 @@
         '#ntk': 'NTK', '#online': 'Online', '#vut': 'VUT Brno',
         '#muni': 'MUNI Brno', '#zču': 'ZČU Plzeň', '#upol': 'UP Olomouc'
     };
+
+    // Funkce, která se postará o zapnutí/vypnutí banneru zkouškového období
+    function checkExamSeason() {
+        const banner = document.getElementById('examBanner');
+        if (IS_EXAM_SEASON) {
+            banner.style.display = 'block';
+        } else {
+            banner.style.display = 'none';
+        }
+    }
 
     async function fetchLectures() {
         const offset = new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString();
@@ -131,7 +178,7 @@
         }
     }
 
-function renderLectures(events) {
+    function renderLectures(events) {
         const listElement = document.getElementById('lectures-list');
         listElement.innerHTML = '';
 
@@ -146,11 +193,10 @@ function renderLectures(events) {
             const month = start.toLocaleString('cs-CZ', { month: 'short' }).toUpperCase().replace('.', '');
             const time = start.toLocaleTimeString('cs-CZ', { hour: '2-digit', minute: '2-digit' });
 
-            // 1. ZÍSKÁNÍ ČISTÉHO TEXTU (bez HTML balastu z Googlu)
             const rawDesc = event.description || '';
             const plainText = rawDesc.replace(/<[^>]*>?/gm, ' ');
 
-            // 2. EXTRAKCE TAGŮ (#)
+            // 1. EXTRAKCE TAGŮ (#)
             const extractedTags = plainText.match(/#\S+/g) || [];
             let lectureCategories = extractedTags
                 .map(tag => tag.replace('#', ''))
@@ -161,48 +207,39 @@ function renderLectures(events) {
                 .map(cat => `<span class="tag tag-cat">${cat.charAt(0).toUpperCase() + cat.slice(1)}</span>`)
                 .join(' ');
 
-            // 3. EXTRAKCE MÍSTNOSTI ($)
+            // 2. EXTRAKCE MÍSTNOSTI ($)
             const roomMatch = plainText.match(/\$(\S+)/);
             const roomHtml = roomMatch ? `<span class="tag tag-room">${roomMatch[1]}</span>` : '';
 
-// 4. EXTRAKCE ODKAZU (^) - hledá v rawDesc PŘED odstraněním HTML tagů
-// Google Calendar může mít URL buď jako text "^https://..." nebo v href atributu u "^" textu
+            // 3. EXTRAKCE ODKAZU (^)
+            let linkUrl = null;
+            const linkMatchPlain = plainText.match(/\^(https?:\/\/\S+)/i);
+            if (linkMatchPlain) {
+                linkUrl = linkMatchPlain[1];
+            }
 
-let linkUrl = null;
+            if (!linkUrl) {
+                const caretHrefMatch = rawDesc.match(/\^[^<]*<a[^>]+href="(https?:\/\/[^"]+)"/i);
+                if (!caretHrefMatch) {
+                    const hrefNearCaret = rawDesc.match(/\^.*?href="(https?:\/\/[^"]+)"/i);
+                    if (hrefNearCaret) linkUrl = hrefNearCaret[1];
+                } else {
+                    linkUrl = caretHrefMatch[1];
+                }
+            }
 
-// Varianta A: stříška je přímo v textu (bez HTML obalení)
-const linkMatchPlain = plainText.match(/\^(https?:\/\/\S+)/i);
-if (linkMatchPlain) {
-    linkUrl = linkMatchPlain[1];
-}
+            if (!linkUrl) {
+                const anchorMatch = rawDesc.match(/<a[^>]+href="(https?:\/\/[^"]+)"[^>]*>[^<]*\^/i);
+                if (anchorMatch) linkUrl = anchorMatch[1];
+            }
 
-// Varianta B: Google obalil odkaz do <a href="...">^...</a> nebo podobně
-// Hledáme <a> tag, jehož text (nebo href) sousedí se stříškou
-if (!linkUrl) {
-    // Zkusíme najít href v blízkosti znaku ^
-    const caretHrefMatch = rawDesc.match(/\^[^<]*<a[^>]+href="(https?:\/\/[^"]+)"/i);
-    if (!caretHrefMatch) {
-        // Nebo: ^ je uvnitř nebo těsně před <a href="...">
-        const hrefNearCaret = rawDesc.match(/\^.*?href="(https?:\/\/[^"]+)"/i);
-        if (hrefNearCaret) linkUrl = hrefNearCaret[1];
-    } else {
-        linkUrl = caretHrefMatch[1];
-    }
-}
+            const linkHtml = linkUrl ? `
+                <a href="${linkUrl}" target="_blank" class="lecture-link">
+                    Více informací
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                </a>` : '';
 
-// Varianta C: <a href="..."> jehož textový obsah obsahuje ^ nebo URL za ^
-if (!linkUrl) {
-    const anchorMatch = rawDesc.match(/<a[^>]+href="(https?:\/\/[^"]+)"[^>]*>[^<]*\^/i);
-    if (anchorMatch) linkUrl = anchorMatch[1];
-}
-
-const linkHtml = linkUrl ? `
-    <a href="${linkUrl}" target="_blank" class="lecture-link">
-        Více informací
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-    </a>` : '';
-
-            // 5. URČENÍ LOKALITY
+            // 4. URČENÍ LOKALITY
             let displayLocation = event.location;
             if (!displayLocation) {
                 const lowerText = plainText.toLowerCase();
@@ -212,20 +249,19 @@ const linkHtml = linkUrl ? `
                 if (!displayLocation) displayLocation = 'V textu';
             }
 
-// 6. FINÁLNÍ VYČIŠTĚNÍ TEXTU PRO ZOBRAZENÍ
-let cleanDesc = plainText
-    .replace(/#\S+/g, '')
-    .replace(/\$\S+/g, '')
-    .replace(/\^https?:\/\/\S+/gi, '')  // ^ přilepená k URL
-    .replace(/\^\s*/g, '');             // zbylá stříška samotná
+            // 5. FINÁLNÍ VYČIŠTĚNÍ TEXTU PRO ZOBRAZENÍ
+            let cleanDesc = plainText
+                .replace(/#\S+/g, '')
+                .replace(/\$\S+/g, '')
+                .replace(/\^https?:\/\/\S+/gi, '')
+                .replace(/\^\s*/g, '');
 
-// Pokud Google URL oddělil od stříšky, smažeme ji jako holý text
-if (linkUrl) {
-    const escapedUrl = linkUrl.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    cleanDesc = cleanDesc.replace(new RegExp(escapedUrl, 'gi'), '');
-}
+            if (linkUrl) {
+                const escapedUrl = linkUrl.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                cleanDesc = cleanDesc.replace(new RegExp(escapedUrl, 'gi'), '');
+            }
 
-cleanDesc = cleanDesc.trim();
+            cleanDesc = cleanDesc.trim();
             
             listElement.innerHTML += `
                 <div class="lecture-card-v2">
@@ -269,6 +305,9 @@ cleanDesc = cleanDesc.trim();
     document.getElementById('searchInput').addEventListener('input', filterData);
     document.getElementById('categoryFilter').addEventListener('change', filterData);
     document.getElementById('locationFilter').addEventListener('change', filterData);
+    
+    // Spuštění kontrol a načtení
+    checkExamSeason();
     fetchLectures();
 </script>
 </body>
