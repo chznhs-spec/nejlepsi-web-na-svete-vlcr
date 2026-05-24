@@ -1,0 +1,1143 @@
+<!doctype html>
+<html lang="cs">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Propagační předměty | VLČR</title>
+    <link rel="icon" type="image/png" href="logo_VLCR.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ─── RESET & BASE ──────────────────────────────────────────── */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html,
+      body {
+        overflow-x: hidden;
+      }
+
+      body {
+        font-family: Manrope, Arial, Helvetica, sans-serif;
+        background: #f8fafc;
+        color: #1a1a2e;
+      }
+
+      a {
+        text-decoration: none;
+        color: black;
+      }
+
+      /* ─── MENU (identical to main page) ────────────────────────── */
+      .menu {
+        top: 0;
+        position: fixed;
+        display: flex;
+        flex-direction: row;
+        background: linear-gradient(
+          90deg,
+          rgb(255, 255, 255),
+          rgba(235, 254, 255, 0.736)
+        );
+        border-bottom: 5px solid rgba(0, 66, 81, 0.056);
+        height: fit-content;
+        width: 100%;
+        z-index: 999;
+      }
+      .navbar {
+        font-family: Manrope, Arial, Helvetica, sans-serif;
+        display: flex;
+        flex-direction: row;
+        width: 200px;
+        height: 100%;
+      }
+      .logo {
+        width: 100px;
+        height: 100px;
+        margin: 10px;
+        transition: transform 0.25s linear;
+      }
+      .logo:hover {
+        animation: spin 0.25s linear infinite;
+      }
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .logo-placeholder {
+        align-self: center;
+        justify-self: center;
+        margin: 10px;
+        padding: 10px;
+        font-family: Manrope, Arial, Helvetica, sans-serif;
+        font-size: xx-large;
+        font-weight: 300;
+        color: rgb(0, 0, 0) !important;
+        display: inline-block;
+        transition: transform 0.2s ease;
+        cursor: initial;
+      }
+      .logo-placeholder:hover {
+        animation: chaos 0.4s infinite alternate ease-in-out;
+      }
+      @keyframes chaos {
+        0% {
+          transform: rotate(0deg) scale(1);
+        }
+        25% {
+          transform: rotate(3deg) scale(1.1) translateX(2px);
+        }
+        50% {
+          transform: rotate(-3deg) scale(1.05) translateX(-2px);
+        }
+        75% {
+          transform: rotate(2deg) scale(1.12) translateY(2px);
+        }
+        100% {
+          transform: rotate(-2deg) scale(1.08) translateY(-2px);
+        }
+      }
+
+      .menu-text {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: right;
+        padding-right: 1vw;
+        width: 100%;
+      }
+      .menu-item {
+        position: relative;
+        margin: 10px;
+        padding: 10px;
+        font-family: Manrope, Arial, Helvetica, sans-serif;
+        font-size: xx-large;
+        font-weight: 300;
+        color: rgb(0, 0, 0) !important;
+        text-decoration: none;
+      }
+      .menu-item::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        bottom: 0;
+        width: 0;
+        height: 3px;
+        background: black;
+        transform: translateX(-50%);
+        transition: width 0.3s ease;
+      }
+      .menu-item:hover::after {
+        width: 100%;
+      }
+      .menu-item:hover {
+        opacity: 0.7;
+        cursor: pointer;
+      }
+      .menu-item.active::after {
+        width: 100%;
+      }
+
+      .horizontal-flex {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+      }
+
+      /* ─── HERO INTRO ────────────────────────────────────────────── */
+      .hero {
+        padding-top: 120px;
+        background: linear-gradient(
+          160deg,
+          #ffffff 0%,
+          #e8f7fa 50%,
+          #d0f0f7 100%
+        );
+        padding-bottom: 80px;
+        position: relative;
+        overflow: hidden;
+      }
+      .hero::before {
+        content: "";
+        position: absolute;
+        top: -100px;
+        right: -100px;
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(
+          circle,
+          rgba(0, 66, 81, 0.06) 0%,
+          transparent 70%
+        );
+        border-radius: 50%;
+      }
+      .hero-inner {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 60px 40px 40px;
+        text-align: center;
+        position: relative;
+      }
+      .hero-badge {
+        display: inline-block;
+        background: rgba(0, 66, 81, 0.08);
+        color: rgb(0, 66, 81);
+        font-size: 0.8rem;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        padding: 6px 18px;
+        border-radius: 100px;
+        margin-bottom: 28px;
+      }
+      .hero h1 {
+        font-family: Manrope, sans-serif;
+        font-size: clamp(2rem, 5vw, 3.6rem);
+        font-weight: 800;
+        color: rgb(0, 44, 80);
+        line-height: 1.15;
+        letter-spacing: -0.03em;
+        margin-bottom: 24px;
+      }
+      .hero h1 em {
+        font-style: normal;
+        color: rgb(0, 66, 81);
+        opacity: 0.85;
+      }
+      .hero-divider {
+        width: 60px;
+        height: 4px;
+        background: linear-gradient(
+          90deg,
+          rgb(0, 66, 81),
+          rgba(0, 66, 81, 0.3)
+        );
+        border-radius: 2px;
+        margin: 0 auto 28px;
+      }
+      .hero p {
+        font-size: clamp(1rem, 2vw, 1.2rem);
+        color: #445;
+        line-height: 1.8;
+        max-width: 700px;
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      /* ─── SECTION WRAPPER ───────────────────────────────────────── */
+      .section {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 70px 40px;
+      }
+      .section-title {
+        font-family: Manrope, sans-serif;
+        font-size: clamp(1.6rem, 3vw, 2.4rem);
+        font-weight: 800;
+        color: rgb(0, 44, 80);
+        margin-bottom: 12px;
+        letter-spacing: -0.02em;
+      }
+      .section-sub {
+        font-size: 1rem;
+        color: #667;
+        margin-bottom: 50px;
+        line-height: 1.6;
+      }
+      .separator-full {
+        border-top: 2px solid rgba(0, 44, 111, 0.1);
+        width: 90%;
+        margin: 0 auto;
+      }
+
+      /* ─── VÝROBA / PROCES ───────────────────────────────────────── */
+      .process-section {
+        background: white;
+        border-radius: 24px;
+        padding: 60px;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+        margin: 0 40px;
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 60px 60px;
+      }
+
+      .steps-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 32px;
+        margin-top: 40px;
+      }
+
+      .step-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        position: relative;
+      }
+      .step-card:not(:last-child)::after {
+        content: "→";
+        position: absolute;
+        right: -20px;
+        top: 28px;
+        font-size: 1.5rem;
+        color: rgba(0, 66, 81, 0.3);
+      }
+
+      .step-num {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: linear-gradient(
+          135deg,
+          rgb(0, 66, 81),
+          rgba(0, 120, 140, 1)
+        );
+        color: white;
+        font-family: Manrope, sans-serif;
+        font-size: 1.4rem;
+        font-weight: 800;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+        box-shadow: 0 6px 20px rgba(0, 66, 81, 0.25);
+        flex-shrink: 0;
+      }
+
+      .step-photo {
+        width: 100%;
+        height: 160px;
+        object-fit: cover;
+        border-radius: 12px;
+        margin-bottom: 16px;
+        background: linear-gradient(135deg, #e8f7fa, #d0eef5);
+      }
+
+      /* Placeholder photos with CSS when real ones aren't available */
+      .step-photo-placeholder {
+        width: 100%;
+        height: 160px;
+        border-radius: 12px;
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3rem;
+        background: linear-gradient(135deg, #e8f7fa, #c5e8f0);
+      }
+
+      .step-card h3 {
+        font-family: Manrope, sans-serif;
+        font-size: 1rem;
+        font-weight: 700;
+        color: rgb(0, 44, 80);
+        margin-bottom: 8px;
+      }
+      .step-card p {
+        font-size: 0.9rem;
+        color: #667;
+        line-height: 1.5;
+        text-align: center;
+      }
+
+      /* ─── PRODUCTS LIST ─────────────────────────────────────────── */
+      .products-section {
+        padding: 70px 40px;
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+
+      .product-row {
+        display: flex;
+        align-items: stretch;
+        gap: 0;
+        margin-bottom: 50px;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+        background: white;
+        cursor: pointer;
+        transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease;
+        border: 1px solid rgba(0, 44, 80, 0.07);
+        animation: fadeUp 0.5s ease both;
+      }
+      .product-row:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 16px 40px rgba(0, 66, 81, 0.14);
+      }
+
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .product-row:nth-child(1) {
+        animation-delay: 0.05s;
+      }
+      .product-row:nth-child(2) {
+        animation-delay: 0.12s;
+      }
+      .product-row:nth-child(3) {
+        animation-delay: 0.19s;
+      }
+      .product-row:nth-child(4) {
+        animation-delay: 0.26s;
+      }
+      .product-row:nth-child(5) {
+        animation-delay: 0.33s;
+      }
+
+      .product-text {
+        flex: 1;
+        padding: 40px 48px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .product-tag {
+        display: inline-block;
+        font-size: 0.7rem;
+        font-weight: 800;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: rgb(0, 66, 81);
+        background: rgba(0, 66, 81, 0.08);
+        padding: 4px 12px;
+        border-radius: 100px;
+        margin-bottom: 16px;
+        width: fit-content;
+      }
+
+      .product-text h2 {
+        font-family: Manrope, sans-serif;
+        font-size: clamp(1.3rem, 2.5vw, 1.9rem);
+        font-weight: 800;
+        color: rgb(0, 44, 80);
+        margin-bottom: 14px;
+        letter-spacing: -0.02em;
+        line-height: 1.2;
+      }
+
+      .product-text p {
+        font-size: 1rem;
+        color: #556;
+        line-height: 1.7;
+        margin-bottom: 24px;
+        text-align: left;
+      }
+
+      .product-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: Manrope, sans-serif;
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: rgb(0, 66, 81);
+        border: 2px solid rgb(0, 66, 81);
+        padding: 10px 22px;
+        border-radius: 100px;
+        transition: all 0.25s ease;
+        width: fit-content;
+      }
+      .product-row:hover .product-cta {
+        background: rgb(0, 66, 81);
+        color: white;
+      }
+      .product-cta-arrow {
+        transition: transform 0.25s ease;
+      }
+      .product-row:hover .product-cta-arrow {
+        transform: translateX(4px);
+      }
+
+      .product-image-box {
+        flex: 0 0 340px;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .product-image-box img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.5s ease;
+      }
+      .product-row:hover .product-image-box img {
+        transform: scale(1.06);
+      }
+
+      /* CSS placeholder if no image */
+      .product-img-placeholder {
+        width: 100%;
+        height: 100%;
+        min-height: 240px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 5rem;
+        background: linear-gradient(135deg, #e8f7fa 0%, #c5e8f0 100%);
+      }
+
+      /* ─── MODAL ─────────────────────────────────────────────────── */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(10, 20, 30, 0.6);
+        backdrop-filter: blur(8px);
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.35s ease;
+      }
+      .modal-overlay.open {
+        opacity: 1;
+        pointer-events: all;
+      }
+
+      .modal {
+        background: white;
+        border-radius: 24px;
+        width: 100%;
+        max-width: 860px;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-shadow: 0 40px 80px rgba(0, 0, 0, 0.25);
+        transform: translateY(40px) scale(0.97);
+        transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        position: relative;
+      }
+      .modal-overlay.open .modal {
+        transform: translateY(0) scale(1);
+      }
+
+      .modal-close {
+        position: sticky;
+        top: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: flex-end;
+        padding: 20px 24px 0;
+        z-index: 10;
+        background: white;
+      }
+      .modal-close button {
+        background: rgba(0, 66, 81, 0.08);
+        border: none;
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        font-size: 1.3rem;
+        cursor: pointer;
+        color: rgb(0, 66, 81);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.2s;
+      }
+      .modal-close button:hover {
+        background: rgba(0, 66, 81, 0.16);
+      }
+
+      .modal-hero-img {
+        width: 100%;
+        height: 320px;
+        object-fit: cover;
+        display: block;
+      }
+      .modal-hero-placeholder {
+        width: 100%;
+        height: 320px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 6rem;
+        background: linear-gradient(135deg, #e8f7fa, #c0e5f0);
+      }
+
+      .modal-body {
+        padding: 40px 48px 50px;
+      }
+
+      .modal-badge {
+        display: inline-block;
+        font-size: 0.7rem;
+        font-weight: 800;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: rgb(0, 66, 81);
+        background: rgba(0, 66, 81, 0.08);
+        padding: 4px 12px;
+        border-radius: 100px;
+        margin-bottom: 16px;
+      }
+
+      .modal-body h2 {
+        font-family: Manrope, sans-serif;
+        font-size: 2.2rem;
+        font-weight: 800;
+        color: rgb(0, 44, 80);
+        margin-bottom: 20px;
+        letter-spacing: -0.02em;
+        line-height: 1.2;
+      }
+
+      .modal-divider {
+        width: 50px;
+        height: 4px;
+        background: linear-gradient(
+          90deg,
+          rgb(0, 66, 81),
+          rgba(0, 66, 81, 0.2)
+        );
+        border-radius: 2px;
+        margin-bottom: 24px;
+      }
+
+      .modal-body p {
+        font-size: 1.05rem;
+        color: #445;
+        line-height: 1.8;
+        margin-bottom: 20px;
+        text-align: left;
+      }
+
+      .modal-specs {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+        margin-top: 32px;
+        padding-top: 28px;
+        border-top: 2px solid rgba(0, 44, 80, 0.08);
+      }
+
+      .spec-item {
+        background: #f8fafc;
+        border-radius: 12px;
+        padding: 18px 22px;
+      }
+      .spec-label {
+        font-size: 0.72rem;
+        font-weight: 800;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: rgba(0, 66, 81, 0.6);
+        margin-bottom: 6px;
+      }
+      .spec-value {
+        font-size: 1rem;
+        font-weight: 600;
+        color: rgb(0, 44, 80);
+      }
+
+      /* ─── MODAL CUBES GALLERY ────────────────────────────────────── */
+      .cubes-section-title {
+        font-family: Manrope, sans-serif;
+        font-size: 1rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: rgba(0, 66, 81, 0.6);
+        margin: 32px 0 16px;
+        padding-top: 28px;
+        border-top: 2px solid rgba(0, 44, 80, 0.08);
+      }
+      .cubes-grid {
+        display: grid;
+        grid-template-columns: 3fr, 1fr;
+        gap: 14px;
+      }
+      .cube-item {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        background: #f8fafc;
+        border-radius: 14px;
+        padding: 14px;
+        border: 1px solid rgba(0, 44, 80, 0.07);
+        transition:
+          box-shadow 0.2s ease,
+          transform 0.2s ease;
+      }
+      .cube-item:hover {
+        box-shadow: 0 6px 20px rgba(0, 66, 81, 0.1);
+        transform: translateY(-2px);
+      }
+      .cube-item.golden {
+        background: linear-gradient(135deg, #fffbea, #fff4c2);
+        border-color: rgba(200, 150, 0, 0.2);
+      }
+      .cube-img-box {
+        flex-shrink: 0;
+        flex-basis: calc(50% - 8px);
+        height: auto;
+        border-radius: 10px;
+        overflow: hidden;
+        background: linear-gradient(135deg, #e8f7fa, #c5e8f0);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+      }
+      .cube-img-box img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .cube-info {
+        flex-basis: calc(50% - 8px);
+        min-width: 0;
+        /* Nové: Vertikálně vycentruje text a roztáhne ho na maximální možnou výšku */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100%;
+      }
+
+      .cube-label {
+        font-family: Manrope, sans-serif;
+        font-size: 1.2rem; /* Zvětšeno z 0.95rem */
+        font-weight: 800; /* Zvýrazněno na tučnější */
+        color: rgb(0, 44, 80);
+        margin-bottom: 6px;
+        line-height: 1.2;
+      }
+
+      .cube-desc {
+        font-size: 0.95rem; /* Zvětšeno z 0.82rem */
+        color: #445; /* Mírně ztmaveno pro lepší čitelnost při větší velikosti */
+        line-height: 1.4;
+        /* Volitelné: Zarovnání do bloku, aby text tvořil "čtverec" a vyplnil strany */
+        text-align: justify;
+      }
+      @media (max-width: 600px) {
+        .cubes-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* ─── FOOTER ─────────────────────────────────────────────────── */
+      .botnik {
+        font-family: Manrope, Arial, Helvetica, sans-serif;
+        display: block;
+        width: 100%;
+        padding: 16px 0;
+        text-align: center;
+        font-size: 1.5rem;
+        color: #505050;
+        background: #f0ffff0e;
+        font-family: system-ui, sans-serif;
+      }
+
+      /* ─── RESPONSIVE ─────────────────────────────────────────────── */
+      @media (max-width: 900px) {
+        .steps-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .step-card:nth-child(2)::after {
+          display: none;
+        }
+        .step-card:nth-child(4)::after {
+          display: none;
+        }
+        .product-image-box {
+          flex: 0 0 260px;
+        }
+        .process-section {
+          padding: 40px 30px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .menu {
+          flex-direction: column !important;
+          position: relative !important;
+          height: auto !important;
+          padding: 10px 0 !important;
+          align-items: center !important;
+        }
+        .horizontal-flex {
+          flex-direction: column !important;
+          width: 100% !important;
+          margin-bottom: 10px !important;
+        }
+        .logo {
+          width: 60px !important;
+          height: auto !important;
+          margin: 5px auto !important;
+          display: block !important;
+        }
+        .logo-placeholder {
+          font-size: 1.2rem !important;
+          text-align: center !important;
+          white-space: normal !important;
+          margin: 5px 10px !important;
+        }
+        .menu-text {
+          width: 100% !important;
+          justify-content: center !important;
+          flex-wrap: wrap !important;
+          padding-right: 0 !important;
+          gap: 5px !important;
+        }
+        .menu-item {
+          font-size: 1rem !important;
+          margin: 5px 10px !important;
+          padding: 5px !important;
+        }
+
+        .hero {
+          padding-top: 30px;
+        }
+        .hero-inner {
+          padding: 40px 20px 30px;
+        }
+
+        .steps-grid {
+          grid-template-columns: 1fr;
+        }
+        .step-card::after {
+          display: none !important;
+        }
+        .process-section {
+          margin: 0 20px;
+          padding: 30px 20px;
+        }
+
+        .product-row {
+          flex-direction: column;
+        }
+        .product-image-box {
+          flex: none;
+          height: 220px;
+        }
+        .product-text {
+          padding: 28px 24px;
+        }
+        .products-section {
+          padding: 40px 20px;
+        }
+
+        .modal-body {
+          padding: 24px 24px 36px;
+        }
+        .modal-body h2 {
+          font-size: 1.6rem;
+        }
+        .modal-specs {
+          grid-template-columns: 1fr;
+        }
+        .modal-hero-img,
+        .modal-hero-placeholder {
+          height: 220px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ── MENU ─────────────────────────────────────────────────── -->
+    <section class="menu">
+      <a
+        href="index.html"
+        class="horizontal-flex"
+        style="justify-content: flex-start"
+      >
+        <img src="logo_VLCR.png" alt="Logo VLČR" class="logo" />
+        <p class="logo-placeholder">Vzdělaný lid České republiky</p>
+      </a>
+      <section class="menu-text">
+        <a href="projekt.html" class="menu-item">Projekty</a>
+        <a href="novinki.html" class="menu-item">Novinky</a>
+        <a href="nastym.html" class="menu-item">Náš tým</a>
+        <a href="kontakt.html" class="menu-item">Kontakt</a>
+        <a href="propagacni-predmety.html" class="menu-item active"
+          >Propagace</a
+        >
+      </section>
+    </section>
+
+    <!-- ── HERO ──────────────────────────────────────────────────── -->
+    <section class="hero">
+      <div class="hero-inner">
+        <h1>Propagační <em>předměty</em></h1>
+        <div class="hero-divider"></div>
+        <p>
+          Každý předmět s logem VLČR je více než jen věc — je to symbol
+          sdílených hodnot, lásky ke vzdělání a hrdosti na to, co společně
+          budujeme. Vyrábíme je s péčí a promyšleným designem, aby
+          reprezentovaly to nejlepší z naší iniciativy.
+        </p>
+      </div>
+    </section>
+
+    <div class="separator-full"></div>
+
+    <!-- ── PROCES VÝROBY ─────────────────────────────────────────── -->
+
+    <!-- ── SEZNAM PŘEDMĚTŮ ───────────────────────────────────────── -->
+    <section class="products-section">
+      <div class="section-title">Naše propagační předměty</div>
+      <p class="section-sub">
+        Kliknutím na libovolný předmět zobrazíte bližší informace.
+      </p>
+
+      <!-- karty se generují automaticky z JS objektu products níže -->
+      <div id="productsContainer"></div>
+    </section>
+
+    <!-- ── FOOTER ─────────────────────────────────────────────────── -->
+    <div class="separator-full"></div>
+    <div class="botnik">
+      <footer class="botnik">
+        © 2025 - 2026 VLČR — Vzdělaný lid České republiky
+      </footer>
+    </div>
+
+    <!-- ── MODAL OVERLAY ──────────────────────────────────────────── -->
+    <div
+      class="modal-overlay"
+      id="modalOverlay"
+      onclick="handleOverlayClick(event)"
+    >
+      <div class="modal" id="modal">
+        <div class="modal-close">
+          <button onclick="closeModal()" aria-label="Zavřít">✕</button>
+        </div>
+        <div id="modalContent"></div>
+      </div>
+    </div>
+
+    <script>
+      /* ─── PRODUCT DATA ─────────────────────────────────────────── */
+      const products = {
+        tricko: {
+          tag: "Stavebnice",
+          emoji: "",
+          img: "vlcrkostkylogo.jpeg",
+          name: "Sběratelské kostky VLČR",
+          desc: `
+            <p>Na každé akci, které se účastní VLČR, nově rozdáváme balíčky se sběratelskými kostkami. Tyto kostky reprezentují jednotlivé části našeho loga a po nasbírání všech typů je možné složit si ho celé. Můžete také experimentovat a stavět cokoli, co si jen dokážete představit. Mezi spoustou balíčků se oovšem nachází i několik zlatých variant v limitované edici. Třeba to budete právě vy, kdo jako jeden z prvních objeví zlatou kostku!</p>
+          `,
+          specs: null,
+          cubes: [
+            {
+              img: "cervena.jpeg",
+              label: "Červená kostka 'VLČR'",
+              desc: "Levý horní roh loga — tvoří základ celého motivu.",
+            },
+            {
+              img: "atom.jpeg",
+              label: "Průhledná modrá kostka s motivem atomu",
+              desc: "Pravý horní roh loga — doplňuje horní část písmene.",
+            },
+            {
+              img: "kniha.jpeg",
+              label: "Průhledná modrá kostka s motivem knihy",
+              desc: "Levý dolní roh loga — spojuje horní a dolní část.",
+            },
+            {
+              img: "zelena.jpeg",
+              label: "Zelená kostka 'VLČR'",
+              desc: "Dolní pravý roh — základna celé sestavy.",
+            },
+            {
+              img: "zlata.jpeg",
+              label: "Zlatá kostka",
+              desc: "Limitovaná varianta — skrytá v náhodných balíčcích. Extrémně vzácná!",
+            },
+          ],
+        },
+        hrnek: {
+          tag: "Pečení cukroví",
+          emoji: "",
+          img: "fotoCukrovi.jpeg",
+          name: "Vykrajovátko VLČR",
+          desc: `
+            <p>VLČR také nabízí vánoční vykrajovátka, která jsou vhodná pro pečení cukroví.</p>
+          `,
+          specs: [
+            { label: "Materiál", value: "PLA" },
+            { label: "Vzor", value: "Logo VLČR" },
+          ],
+        },
+        samolepky: {
+          tag: "Klíčenky",
+          emoji: "",
+          img: "privesky.jpeg",
+          name: "Přívěšky VLČR",
+          desc: `
+            <p>Ve VLČR také vyrábíme přívěšky s logem iniciativy. Jsou ideální pro zájemce o sběr a pro ty, kdo chtějí nosit své zájmy na dohled. Dostupné hned v několika barvách.</p>
+          `,
+          specs: [
+            { label: "Materiál", value: "PLA" },
+            { label: "Velikost", value: "30 × 37 mm" },
+          ],
+        },
+        zapisnik: {
+          tag: "Kancelář & Studium",
+          emoji: "📓",
+          img: "kosticky.jpeg",
+          name: "Dárkové balení VLČR kostiček",
+          desc: `
+            <p>Sada čtyř různých kostiček s částmi loga VLČR, ze kterých je možno složit si ho celé. Jedná se o zjednodušenou verzi sběratelských kostek a je vhodná pro ty, kteří chtějí naším logem obdařit své blízké.</p>
+          `,
+          specs: [
+            { label: "Velikost balení", value: "30 × 30 mm" },
+            { label: "Velikost kostičky", value: "15 × 15 mm" },
+            { label: "Materiál", value: "PLA" },
+            { label: "Barvy", value: "3" },
+          ],
+        },
+      };
+
+      /* ─── RENDER PRODUCT CARDS ────────────────────────────────── */
+      (function renderCards() {
+        const container = document.getElementById("productsContainer");
+        Object.entries(products).forEach(([id, p], i) => {
+          // Short preview text: first 180 chars of inner text from desc
+          const tmp = document.createElement("div");
+          tmp.innerHTML = p.desc;
+          const preview =
+            (tmp.textContent || "").trim().slice(0, 180).replace(/\s+/g, " ") +
+            "…";
+
+          const imageHtml = p.img
+            ? `<img src="${p.img}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;display:block;">`
+            : `<div class="product-img-placeholder">${p.emoji}</div>`;
+
+          const card = document.createElement("div");
+          card.className = "product-row";
+          card.style.animationDelay = `${0.05 + i * 0.07}s`;
+          card.setAttribute("onclick", `openModal('${id}')`);
+          card.innerHTML = `
+            <div class="product-text">
+              <span class="product-tag">${p.tag}</span>
+              <h2>${p.name}</h2>
+              <p>${preview}</p>
+              <span class="product-cta">
+                Zobrazit detail
+                <span class="product-cta-arrow">→</span>
+              </span>
+            </div>
+            <div class="product-image-box">${imageHtml}</div>
+          `;
+          container.appendChild(card);
+        });
+      })();
+
+      /* ─── MODAL LOGIC ──────────────────────────────────────────── */
+      function openModal(id) {
+        const p = products[id];
+        if (!p) return;
+
+        let bottomHtml = "";
+
+        if (p.cubes) {
+          // Render cubes gallery
+          const cubesHtml = p.cubes
+            .map((c) => {
+              const isGolden =
+                c.label.includes("Zlatá") || c.label.includes("zlatá");
+              const imgHtml = c.img
+                ? `<img src="${c.img}" alt="${c.label}">`
+                : `🧱`;
+              return `
+              <div class="cube-item${isGolden ? " golden" : ""}">
+                <div class="cube-img-box">${imgHtml}</div>
+                <div class="cube-info">
+                  <div class="cube-label">${c.label}</div>
+                  <div class="cube-desc">${c.desc}</div>
+                </div>
+              </div>
+            `;
+            })
+            .join("");
+          bottomHtml = `
+            <p class="cubes-section-title">Typy kostek</p>
+            <div class="cubes-grid">${cubesHtml}</div>
+          `;
+        } else if (p.specs) {
+          // Render standard specs grid
+          const specsHtml = p.specs
+            .map(
+              (s) => `
+            <div class="spec-item">
+              <div class="spec-label">${s.label}</div>
+              <div class="spec-value">${s.value}</div>
+            </div>
+          `,
+            )
+            .join("");
+          bottomHtml = `<div class="modal-specs">${specsHtml}</div>`;
+        }
+
+        document.getElementById("modalContent").innerHTML = `
+          ${
+            p.img
+              ? `<img class="modal-hero-img" src="${p.img}" alt="${p.name}">`
+              : `<div class="modal-hero-placeholder">${p.emoji}</div>`
+          }
+          <div class="modal-body">
+            <span class="modal-badge">${p.tag}</span>
+            <h2>${p.name}</h2>
+            <div class="modal-divider"></div>
+            ${p.desc}
+            ${bottomHtml}
+          </div>
+        `;
+
+        const overlay = document.getElementById("modalOverlay");
+        overlay.classList.add("open");
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeModal() {
+        const overlay = document.getElementById("modalOverlay");
+        overlay.classList.remove("open");
+        document.body.style.overflow = "";
+      }
+
+      function handleOverlayClick(e) {
+        if (e.target === document.getElementById("modalOverlay")) {
+          closeModal();
+        }
+      }
+
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") closeModal();
+      });
+    </script>
+  </body>
+</html>
