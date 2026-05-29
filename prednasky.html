@@ -1,336 +1,269 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="cs">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vyhledávač přednášek | VLČR</title>
     <link rel="icon" type="image/png" href="logo_VLCR.png" />
     <link rel="stylesheet" href="styles.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
     <style>
-      .tag-room {
-        background: #f1f5f9 !important;
-        color: #475569 !important;
-        border: 1px solid #e2e8f0 !important;
-      }
+        .tag-room { background: #f1f5f9 !important; color: #475569 !important; border: 1px solid #e2e8f0 !important; }
+        
+        /* Styl pro tlačítko odkazu */
+        .lecture-link {
+            display: inline-flex;
+            align-items: center;
+            margin-top: 15px;
+            padding: 8px 16px;
+            background-color: #004251; /* Vaše VLČR barva */
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-family: 'Manrope', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+        .lecture-link:hover {
+            background-color: #002d38;
+            color: white;
+        }
+        .lecture-link svg {
+            margin-left: 8px;
+        }
 
-      /* Styl pro tlačítko odkazu */
-      .lecture-link {
-        display: inline-flex;
-        align-items: center;
-        margin-top: 15px;
-        padding: 8px 16px;
-        background-color: #004251; /* Vaše VLČR barva */
-        color: white;
-        text-decoration: none;
-        border-radius: 6px;
-        font-family: "Manrope", sans-serif;
-        font-size: 13px;
-        font-weight: 600;
-        transition: background 0.2s;
-      }
-      .lecture-link:hover {
-        background-color: #002d38;
-        color: white;
-      }
-      .lecture-link svg {
-        margin-left: 8px;
-      }
-
-      /* Styl pro info banner během zkouškového */
-      .exam-banner {
-        background-color: #f0fdfa;
-        border: 1px solid #ccfbf1;
-        border-left: 5px solid #004251;
-        padding: 16px 20px;
-        border-radius: 8px;
-        margin: 0 auto 25px auto;
-        max-width: 1200px;
-        font-family: "Manrope", sans-serif;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-        display: none; /* Výchozí stav je skrytý, zapíná se skriptem */
-      }
-      .exam-banner h3 {
-        margin: 0 0 6px 0;
-        color: #004251;
-        font-size: 16px;
-        font-weight: 700;
-      }
-      .exam-banner p {
-        margin: 0;
-        color: #334155;
-        font-size: 14px;
-        line-height: 1.5;
-      }
+        /* Styl pro info banner během zkouškového */
+        .exam-banner {
+            background-color: #f0fdfa;
+            border: 1px solid #ccfbf1;
+            border-left: 5px solid #004251;
+            padding: 16px 20px;
+            border-radius: 8px;
+            margin: 0 auto 25px auto;
+            max-width: 1200px;
+            font-family: 'Manrope', sans-serif;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            display: none; /* Výchozí stav je skrytý, zapíná se skriptem */
+        }
+        .exam-banner h3 {
+            margin: 0 0 6px 0;
+            color: #004251;
+            font-size: 16px;
+            font-weight: 700;
+        }
+        .exam-banner p {
+            margin: 0;
+            color: #334155;
+            font-size: 14px;
+            line-height: 1.5;
+        }
     </style>
-  </head>
-  <body class="lectures-page">
-    <!-- ── MENU ─────────────────────────────────────────────────── -->
+</head>
+<body class="lectures-page">
+
     <section class="menu">
-      <a
-        href="index.html"
-        class="horizontal-flex"
-        style="justify-content: flex-start"
-      >
-        <img src="logo_VLCR.png" alt="Logo VLČR" class="logo" />
-        <p class="logo-placeholder">Vzdělaný lid České republiky</p>
-      </a>
-      <section class="menu-text">
-        <a href="projekt.html" class="menu-item">Projekty</a>
-        <a href="novinki.html" class="menu-item">Novinky</a>
-        <a href="nastym.html" class="menu-item">Náš tým</a>
-        <a href="kontakt.html" class="menu-item">Kontakt</a>
-        <a href="propagacni-predmety.html" class="menu-item active"
-          >Propagace</a
-        >
-      </section>
+        <a href="index.html" class="horizontal-flex">
+            <img src="logo_VLCR.png" alt="Logo VLČR" class="logo" />
+            <p class="logo-placeholder">Vzdělaný lid České republiky</p>
+        </a>
+        <section class="menu-text">
+            <a href="projekt.html" class="menu-item">Projekty</a>
+            <a href="novinki.html" class="menu-item">Novinky</a>
+            <a href="nastym.html" class="menu-item">Náš tým</a>
+            <a href="kontakt.html" class="menu-item">Kontakt</a>
+        </section>
     </section>
 
     <main class="content">
-      <div class="search-header-v2">
-        <h1 class="search-title">Vyhledávač přednášek</h1>
-      </div>
-
-      <div id="examBanner" class="exam-banner">
-        <h3>🎓 Zkouškové období v plném proudu</h3>
-        <p>
-          Vzhledem k aktuálnímu zkouškovému období je akademický program omezen
-          a na univerzitách se koná méně veřejných přednášek. Všem studentům
-          přejeme pevné nervy a hodně štěstí u zkoušek! – <strong>VLČR</strong>
-        </p>
-      </div>
-
-      <section class="filter-section">
-        <div class="filter-bar">
-          <input
-            type="text"
-            id="searchInput"
-            placeholder="Hledat název, jméno nebo téma..."
-          />
-
-          <select id="categoryFilter">
-            <option value="all">Všechny obory</option>
-            <option value="Chemie">Chemie</option>
-            <option value="Fyzika">Fyzika</option>
-            <option value="Technologie">Technologie</option>
-            <option value="Kosmonautika">Kosmonautika</option>
-            <option value="Energetika">Energetika</option>
-            <option value="Biologie">Biologie</option>
-            <option value="Matematika">Matematika</option>
-            <option value="Ekonomika">Ekonomika</option>
-            <option value="Informatika">Informatika</option>
-            <option value="Medicína">Medicína</option>
-            <option value="Historie">Historie</option>
-            <option value="Psychologie">Psychologie</option>
-          </select>
-
-          <select id="locationFilter">
-            <option value="all">Kdekoliv</option>
-            <option value="čvut">ČVUT (Praha)</option>
-            <option value="všcht">VŠCHT (Praha)</option>
-            <option value="uk">UK (Praha)</option>
-            <option value="vut">VUT (Brno)</option>
-            <option value="muni">MUNI (Brno)</option>
-            <option value="zču">ZČU (Plzeň)</option>
-            <option value="upol">UP (Olomouc)</option>
-            <option value="ntk">NTK</option>
-            <option value="online">Online</option>
-          </select>
+        <div class="search-header-v2">
+            <h1 class="search-title">Vyhledávač přednášek</h1>
         </div>
-      </section>
 
-      <div id="lectures-list" class="lectures-grid">
-        <p style="text-align: center; color: #64748b">
-          Načítám přednášky z VLČR kalendáře...
-        </p>
-      </div>
+        <div id="examBanner" class="exam-banner">
+            <h3>🎓 Zkouškové období v plném proudu</h3>
+            <p>Vzhledem k aktuálnímu zkouškovému období je akademický program omezen a na univerzitách se koná méně veřejných přednášek. Všem studentům přejeme pevné nervy a hodně štěstí u zkoušek! – <strong>VLČR</strong></p>
+        </div>
+
+        <section class="filter-section">
+            <div class="filter-bar">
+                <input type="text" id="searchInput" placeholder="Hledat název, jméno nebo téma..." />
+                
+                <select id="categoryFilter">
+                    <option value="all">Všechny obory</option>
+                    <option value="Chemie">Chemie</option>
+                    <option value="Fyzika">Fyzika</option>
+                    <option value="Technologie">Technologie</option>
+                    <option value="Kosmonautika">Kosmonautika</option>
+                    <option value="Energetika">Energetika</option>
+                    <option value="Biologie">Biologie</option>
+                    <option value="Matematika">Matematika</option>
+                    <option value="Ekonomika">Ekonomika</option>
+                    <option value="Informatika">Informatika</option>
+                    <option value="Medicína">Medicína</option>
+                    <option value="Historie">Historie</option>
+                    <option value="Psychologie">Psychologie</option>
+                </select>
+
+                <select id="locationFilter">
+                    <option value="all">Kdekoliv</option>
+                    <option value="čvut">ČVUT (Praha)</option>
+                    <option value="všcht">VŠCHT (Praha)</option>
+                    <option value="uk">UK (Praha)</option>
+                    <option value="vut">VUT (Brno)</option>
+                    <option value="muni">MUNI (Brno)</option>
+                    <option value="zču">ZČU (Plzeň)</option>
+                    <option value="upol">UP (Olomouc)</option>
+                    <option value="ntk">NTK</option>
+                    <option value="online">Online</option>
+                </select>
+            </div>
+        </section>
+
+        <div id="lectures-list" class="lectures-grid">
+            <p style="text-align:center; color: #64748b;">Načítám přednášky z VLČR kalendáře...</p>
+        </div>
     </main>
 
-    <script>
-      // =========================================================================
-      // HLAVNÍ PŘEPÍNAČ PRO ZKOUŠKOVÉ OBDOBÍ
-      // true = banner se zobrazí | false = banner zůstane skrytý
-      const IS_EXAM_SEASON = true;
-      // =========================================================================
+<script>
+    // =========================================================================
+    // HLAVNÍ PŘEPÍNAČ PRO ZKOUŠKOVÉ OBDOBÍ
+    // true = banner se zobrazí | false = banner zůstane skrytý
+    const IS_EXAM_SEASON = true; 
+    // =========================================================================
 
-      const API_KEY = "AIzaSyBYNhB9SMazhbLZ4AQG1OZQa7DxCKABmW0";
-      const CALENDAR_ID = "vlcr.hlavni@gmail.com";
+    const API_KEY = 'AIzaSyBYNhB9SMazhbLZ4AQG1OZQa7DxCKABmW0'; 
+    const CALENDAR_ID = 'vlcr.hlavni@gmail.com';
 
-      let allEvents = [];
+    let allEvents = [];
 
-      const knownCategories = [
-        "chemie",
-        "fyzika",
-        "technologie",
-        "biologie",
-        "matematika",
-        "informatika",
-        "medicína",
-        "historie",
-        "věda",
-        "kosmonautika",
-        "energetika",
-        "astronomie",
-        "psychologie",
-        "filozofie",
-        "ekonomika",
-        "ekonomie",
-      ];
+    const knownCategories = [
+        'chemie', 'fyzika', 'technologie', 'biologie', 'matematika', 
+        'informatika', 'medicína', 'historie', 'věda', 'kosmonautika', 
+        'energetika', 'astronomie', 'psychologie', 'filozofie', 'ekonomika', 'ekonomie'
+    ];
 
-      const knownLocations = {
-        "#čvut": "ČVUT",
-        "#uk": "UK",
-        "#všcht": "VŠCHT",
-        "#ntk": "NTK",
-        "#online": "Online",
-        "#vut": "VUT Brno",
-        "#muni": "MUNI Brno",
-        "#zču": "ZČU Plzeň",
-        "#upol": "UP Olomouc",
-      };
+    const knownLocations = { 
+        '#čvut': 'ČVUT', '#uk': 'UK', '#všcht': 'VŠCHT', 
+        '#ntk': 'NTK', '#online': 'Online', '#vut': 'VUT Brno',
+        '#muni': 'MUNI Brno', '#zču': 'ZČU Plzeň', '#upol': 'UP Olomouc'
+    };
 
-      // Funkce, která se postará o zapnutí/vypnutí banneru zkouškového období
-      function checkExamSeason() {
-        const banner = document.getElementById("examBanner");
+    // Funkce, která se postará o zapnutí/vypnutí banneru zkouškového období
+    function checkExamSeason() {
+        const banner = document.getElementById('examBanner');
         if (IS_EXAM_SEASON) {
-          banner.style.display = "block";
+            banner.style.display = 'block';
         } else {
-          banner.style.display = "none";
+            banner.style.display = 'none';
         }
-      }
+    }
 
-      async function fetchLectures() {
+    async function fetchLectures() {
         const offset = new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString();
         const url = `https://www.googleapis.com/calendar/v3/calendars/${CALENDAR_ID}/events?key=${API_KEY}&timeMin=${offset}&singleEvents=true&orderBy=startTime`;
 
         try {
-          const response = await fetch(url);
-          const data = await response.json();
-          if (data.error) throw new Error(data.error.message);
+            const response = await fetch(url);
+            const data = await response.json();
+            if (data.error) throw new Error(data.error.message);
 
-          allEvents = data.items || [];
-          renderLectures(allEvents);
+            allEvents = data.items || [];
+            renderLectures(allEvents);
         } catch (error) {
-          console.error("Chyba:", error);
-          document.getElementById("lectures-list").innerHTML =
-            `<p style="text-align:center; color: #ef4444;">Chyba při načítání.</p>`;
+            console.error('Chyba:', error);
+            document.getElementById('lectures-list').innerHTML = `<p style="text-align:center; color: #ef4444;">Chyba při načítání.</p>`;
         }
-      }
+    }
 
-      function renderLectures(events) {
-        const listElement = document.getElementById("lectures-list");
-        listElement.innerHTML = "";
+    function renderLectures(events) {
+        const listElement = document.getElementById('lectures-list');
+        listElement.innerHTML = '';
 
         if (events.length === 0) {
-          listElement.innerHTML =
-            '<p class="no-results">Žádné nadcházející přednášky nenalezeny.</p>';
-          return;
+            listElement.innerHTML = '<p class="no-results">Žádné nadcházející přednášky nenalezeny.</p>';
+            return;
         }
 
-        events.forEach((event) => {
-          const start = new Date(event.start.dateTime || event.start.date);
-          const day = start.getDate();
-          const month = start
-            .toLocaleString("cs-CZ", { month: "short" })
-            .toUpperCase()
-            .replace(".", "");
-          const time = start.toLocaleTimeString("cs-CZ", {
-            hour: "2-digit",
-            minute: "2-digit",
-          });
+        events.forEach(event => {
+            const start = new Date(event.start.dateTime || event.start.date);
+            const day = start.getDate();
+            const month = start.toLocaleString('cs-CZ', { month: 'short' }).toUpperCase().replace('.', '');
+            const time = start.toLocaleTimeString('cs-CZ', { hour: '2-digit', minute: '2-digit' });
 
-          const rawDesc = event.description || "";
-          const plainText = rawDesc.replace(/<[^>]*>?/gm, " ");
+            const rawDesc = event.description || '';
+            const plainText = rawDesc.replace(/<[^>]*>?/gm, ' ');
 
-          // 1. EXTRAKCE TAGŮ (#)
-          const extractedTags = plainText.match(/#\S+/g) || [];
-          let lectureCategories = extractedTags
-            .map((tag) => tag.replace("#", ""))
-            .filter((tag) => knownCategories.includes(tag.toLowerCase()));
+            // 1. EXTRAKCE TAGŮ (#)
+            const extractedTags = plainText.match(/#\S+/g) || [];
+            let lectureCategories = extractedTags
+                .map(tag => tag.replace('#', ''))
+                .filter(tag => knownCategories.includes(tag.toLowerCase()));
 
-          if (lectureCategories.length === 0) lectureCategories = ["Přednáška"];
-          const categoriesHtml = lectureCategories
-            .map(
-              (cat) =>
-                `<span class="tag tag-cat">${cat.charAt(0).toUpperCase() + cat.slice(1)}</span>`,
-            )
-            .join(" ");
+            if (lectureCategories.length === 0) lectureCategories = ['Přednáška'];
+            const categoriesHtml = lectureCategories
+                .map(cat => `<span class="tag tag-cat">${cat.charAt(0).toUpperCase() + cat.slice(1)}</span>`)
+                .join(' ');
 
-          // 2. EXTRAKCE MÍSTNOSTI ($)
-          const roomMatch = plainText.match(/\$(\S+)/);
-          const roomHtml = roomMatch
-            ? `<span class="tag tag-room">${roomMatch[1]}</span>`
-            : "";
+            // 2. EXTRAKCE MÍSTNOSTI ($)
+            const roomMatch = plainText.match(/\$(\S+)/);
+            const roomHtml = roomMatch ? `<span class="tag tag-room">${roomMatch[1]}</span>` : '';
 
-          // 3. EXTRAKCE ODKAZU (^)
-          let linkUrl = null;
-          const linkMatchPlain = plainText.match(/\^(https?:\/\/\S+)/i);
-          if (linkMatchPlain) {
-            linkUrl = linkMatchPlain[1];
-          }
-
-          if (!linkUrl) {
-            const caretHrefMatch = rawDesc.match(
-              /\^[^<]*<a[^>]+href="(https?:\/\/[^"]+)"/i,
-            );
-            if (!caretHrefMatch) {
-              const hrefNearCaret = rawDesc.match(
-                /\^.*?href="(https?:\/\/[^"]+)"/i,
-              );
-              if (hrefNearCaret) linkUrl = hrefNearCaret[1];
-            } else {
-              linkUrl = caretHrefMatch[1];
+            // 3. EXTRAKCE ODKAZU (^)
+            let linkUrl = null;
+            const linkMatchPlain = plainText.match(/\^(https?:\/\/\S+)/i);
+            if (linkMatchPlain) {
+                linkUrl = linkMatchPlain[1];
             }
-          }
 
-          if (!linkUrl) {
-            const anchorMatch = rawDesc.match(
-              /<a[^>]+href="(https?:\/\/[^"]+)"[^>]*>[^<]*\^/i,
-            );
-            if (anchorMatch) linkUrl = anchorMatch[1];
-          }
+            if (!linkUrl) {
+                const caretHrefMatch = rawDesc.match(/\^[^<]*<a[^>]+href="(https?:\/\/[^"]+)"/i);
+                if (!caretHrefMatch) {
+                    const hrefNearCaret = rawDesc.match(/\^.*?href="(https?:\/\/[^"]+)"/i);
+                    if (hrefNearCaret) linkUrl = hrefNearCaret[1];
+                } else {
+                    linkUrl = caretHrefMatch[1];
+                }
+            }
 
-          const linkHtml = linkUrl
-            ? `
+            if (!linkUrl) {
+                const anchorMatch = rawDesc.match(/<a[^>]+href="(https?:\/\/[^"]+)"[^>]*>[^<]*\^/i);
+                if (anchorMatch) linkUrl = anchorMatch[1];
+            }
+
+            const linkHtml = linkUrl ? `
                 <a href="${linkUrl}" target="_blank" class="lecture-link">
                     Více informací
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-                </a>`
-            : "";
+                </a>` : '';
 
-          // 4. URČENÍ LOKALITY
-          let displayLocation = event.location;
-          if (!displayLocation) {
-            const lowerText = plainText.toLowerCase();
-            for (const [key, value] of Object.entries(knownLocations)) {
-              if (lowerText.includes(key)) {
-                displayLocation = value;
-                break;
-              }
+            // 4. URČENÍ LOKALITY
+            let displayLocation = event.location;
+            if (!displayLocation) {
+                const lowerText = plainText.toLowerCase();
+                for (const [key, value] of Object.entries(knownLocations)) {
+                    if (lowerText.includes(key)) { displayLocation = value; break; }
+                }
+                if (!displayLocation) displayLocation = 'V textu';
             }
-            if (!displayLocation) displayLocation = "V textu";
-          }
 
-          // 5. FINÁLNÍ VYČIŠTĚNÍ TEXTU PRO ZOBRAZENÍ
-          let cleanDesc = plainText
-            .replace(/#\S+/g, "")
-            .replace(/\$\S+/g, "")
-            .replace(/\^https?:\/\/\S+/gi, "")
-            .replace(/\^\s*/g, "");
+            // 5. FINÁLNÍ VYČIŠTĚNÍ TEXTU PRO ZOBRAZENÍ
+            let cleanDesc = plainText
+                .replace(/#\S+/g, '')
+                .replace(/\$\S+/g, '')
+                .replace(/\^https?:\/\/\S+/gi, '')
+                .replace(/\^\s*/g, '');
 
-          if (linkUrl) {
-            const escapedUrl = linkUrl.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-            cleanDesc = cleanDesc.replace(new RegExp(escapedUrl, "gi"), "");
-          }
+            if (linkUrl) {
+                const escapedUrl = linkUrl.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                cleanDesc = cleanDesc.replace(new RegExp(escapedUrl, 'gi'), '');
+            }
 
-          cleanDesc = cleanDesc.trim();
-
-          listElement.innerHTML += `
+            cleanDesc = cleanDesc.trim();
+            
+            listElement.innerHTML += `
                 <div class="lecture-card-v2">
                     <div class="date-badge">
                         <span class="day">${day}</span>
@@ -344,55 +277,38 @@
                             ${roomHtml}
                         </div>
                         <h2 class="title">${event.summary}</h2>
-                        <p class="description">${cleanDesc || "Podrobnosti v popisu chybí."}</p>
+                        <p class="description">${cleanDesc || 'Podrobnosti v popisu chybí.'}</p>
                         ${linkHtml}
                     </div>
                 </div>
             `;
         });
-      }
+    }
 
-      function filterData() {
-        const searchText = document
-          .getElementById("searchInput")
-          .value.toLowerCase();
-        const category = document
-          .getElementById("categoryFilter")
-          .value.toLowerCase();
-        const location = document
-          .getElementById("locationFilter")
-          .value.toLowerCase();
+    function filterData() {
+        const searchText = document.getElementById('searchInput').value.toLowerCase();
+        const category = document.getElementById('categoryFilter').value.toLowerCase();
+        const location = document.getElementById('locationFilter').value.toLowerCase();
 
-        const filtered = allEvents.filter((event) => {
-          const title = (event.summary || "").toLowerCase();
-          const desc = (event.description || "").toLowerCase();
-          const loc = (event.location || "").toLowerCase();
-          const matchesSearch =
-            title.includes(searchText) || desc.includes(searchText);
-          const matchesCat =
-            category === "all" || desc.includes("#" + category.toLowerCase());
-          const matchesLoc =
-            location === "all" ||
-            loc.includes(location) ||
-            desc.includes("#" + location);
-          return matchesSearch && matchesCat && matchesLoc;
+        const filtered = allEvents.filter(event => {
+            const title = (event.summary || '').toLowerCase();
+            const desc = (event.description || '').toLowerCase();
+            const loc = (event.location || '').toLowerCase();
+            const matchesSearch = title.includes(searchText) || desc.includes(searchText);
+            const matchesCat = category === 'all' || desc.includes('#' + category.toLowerCase());
+            const matchesLoc = location === 'all' || loc.includes(location) || desc.includes('#' + location);
+            return matchesSearch && matchesCat && matchesLoc;
         });
         renderLectures(filtered);
-      }
+    }
 
-      document
-        .getElementById("searchInput")
-        .addEventListener("input", filterData);
-      document
-        .getElementById("categoryFilter")
-        .addEventListener("change", filterData);
-      document
-        .getElementById("locationFilter")
-        .addEventListener("change", filterData);
-
-      // Spuštění kontrol a načtení
-      checkExamSeason();
-      fetchLectures();
-    </script>
-  </body>
+    document.getElementById('searchInput').addEventListener('input', filterData);
+    document.getElementById('categoryFilter').addEventListener('change', filterData);
+    document.getElementById('locationFilter').addEventListener('change', filterData);
+    
+    // Spuštění kontrol a načtení
+    checkExamSeason();
+    fetchLectures();
+</script>
+</body>
 </html>
