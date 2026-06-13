@@ -51,17 +51,19 @@
       </div>
 
       <div style="width: 60vw; margin-top: 20px; margin-bottom: 50px;">
-        
         <div style="display: flex; justify-content: space-between; gap: 1.5vw; margin-bottom: 1.5vw;">
-          <img src="jaderné-setkání-1.jpg" alt="Foto 2" style="width: 19vw; height: 19vw; border-radius: 10px; object-fit: cover;" />
-          <img src="jaderné-setkání-2.png" alt="Foto 3" style="width: 19vw; height: 19vw; border-radius: 10px; object-fit: cover;" />
-          <img src="jaderné-setkání-3.png" alt="Foto 4" style="width: 19vw; height: 19vw; border-radius: 10px; object-fit: cover;" />
+          <img src="jaderné-setkání-1.jpg" alt="Foto 2" class="zoomable-img" style="width: 19vw; height: 19vw; border-radius: 10px; object-fit: cover;" onclick="openLightbox(this.src)" />
+          <img src="jaderné-setkání-2.png" alt="Foto 3" class="zoomable-img" style="width: 19vw; height: 19vw; border-radius: 10px; object-fit: cover;" onclick="openLightbox(this.src)" />
+          <img src="jaderné-setkání-3.png" alt="Foto 4" class="zoomable-img" style="width: 19vw; height: 19vw; border-radius: 10px; object-fit: cover;" onclick="openLightbox(this.src)" />
         </div>
 
-        <img src="jaderné-setkání-reklama.png" alt="Hlavní foto 16:9" style="width: 100%; aspect-ratio: 16/9;" />
-        
+        <img src="jaderné-setkání-reklama.png" alt="Hlavní foto 16:9" class="zoomable-img" style="width: 100%; aspect-ratio: 16/9; border-radius: 10px; object-fit: cover;" onclick="openLightbox(this.src)" />
       </div>
     </article>
+
+    <div id="lightbox" class="lightbox-overlay" onclick="closeLightbox()">
+      <img id="lightbox-img" src="" alt="Zvětšený náhled" />
+    </div>
 
     <div class="separator-full"></div>
     <div class="botnik">
@@ -69,5 +71,7 @@
         © 2025 - 2026 VLČR — Vzdělaný lid České republiky
       </footer>
     </div>
+
+    <script src="fotky.js"></script>
   </body>
 </html>
