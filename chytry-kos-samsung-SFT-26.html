@@ -42,7 +42,7 @@
         </p>
 
         <p style="font-family: 'Times New Roman', Times, serif">
-          Zařízení je postaveno na platformě mikrokontroléru ESP32 a využívá integrovanou kameru k analýze vhazovaných předmětů. Systém v reálném čase porovnává obraz s rozsáhlou databází, která byla vytvořena speciálně pro tento účel. Pokud koš vyhodnotí, že předmět směřuje do správné přihrádky, umožní jeho průchod. V opačném případě uživatele na chybu upozorní a odpad sám mechanicky roztřídí do příslušné části.
+          Zařízení je postaveno na platformě mikrokontroléru ESP32 a využívá integrovanou kameru k analýze vhazovaných předmětů. Systém v reálném čase porovnává obraz s rozsáhlou databází, která byla vytvořena speciálně pro tento účel. Pokud koš vyhodnotit, že předmět směřuje do správné přihrádky, umožní jeho průchod. V opačném případě uživatele na chybu upozorní a odpad sám mechanicky roztřídí do příslušné části.
         </p>
 
         <p style="font-family: 'Times New Roman', Times, serif">
@@ -58,16 +58,18 @@
         </p>
       </div>
 
-<div style="width: 60vw; margin-top: 20px; margin-bottom: 50px;">
-        
+      <div style="width: 60vw; margin-top: 20px; margin-bottom: 50px;">
         <div style="display: flex; justify-content: space-between; gap: 1.5vw; margin-bottom: 1.5vw;">
-          <img src="sft26_1.jpeg" alt="Kluci s košem" style="width: 19vw; height: 19vw; border-radius: 10px; object-fit: cover;" />
-          <img src="sft26_2.jpeg" alt="Přednášení" style="width: 19vw; height: 19vw; border-radius: 10px; object-fit: cover;" />
-          <img src="sft26_3.jpeg" alt="Robin my beloved" style="width: 19vw; height: 19vw; border-radius: 10px; object-fit: cover;" />
+          <img src="sft26_1.jpeg" alt="Kluci s košem" class="zoomable-img" style="width: 19vw; height: 19vw; border-radius: 10px; object-fit: cover;" onclick="openLightbox(this.src)" />
+          <img src="sft26_2.jpeg" alt="Přednášení" class="zoomable-img" style="width: 19vw; height: 19vw; border-radius: 10px; object-fit: cover;" onclick="openLightbox(this.src)" />
+          <img src="sft26_3.jpeg" alt="Robin my beloved" class="zoomable-img" style="width: 19vw; height: 19vw; border-radius: 10px; object-fit: cover;" onclick="openLightbox(this.src)" />
         </div>
-        
       </div>
     </article>
+
+    <div id="lightbox" class="lightbox-overlay" onclick="closeLightbox()">
+      <img id="lightbox-img" src="" alt="Zvětšený náhled" />
+    </div>
 
     <div class="separator-full"></div>
     <div class="botnik">
@@ -75,5 +77,7 @@
         © 2025 - 2026 VLČR — Vzdělaný lid České republiky
       </footer>
     </div>
+
+    <script src="fotky.js"></script>
   </body>
 </html>
