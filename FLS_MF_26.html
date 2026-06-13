@@ -59,17 +59,19 @@
       </div>
 
       <div style="width: 60vw; margin-top: 20px; margin-bottom: 50px;">
-        
         <div style="display: flex; justify-content: space-between; gap: 1.5vw; margin-bottom: 1.5vw;">
-          <img src="FLS_MF_26_2.jpeg" alt="Atmosféra turnaje" style="width: 19vw; height: 19vw; border-radius: 10px; object-fit: cover;" />
-          <img src="FLS_MF_26_3.jpeg" alt="Technické detaily" style="width: 19vw; height: 19vw; border-radius: 10px; object-fit: cover;" />
-          <img src="FLS_MF_26_4.jpeg" alt="Konstrukce robota" style="width: 19vw; height: 19vw; border-radius: 10px; object-fit: cover;" />
+          <img src="FLS_MF_26_2.jpeg" alt="Atmosféra turnaje" class="zoomable-img" style="width: 19vw; height: 19vw; border-radius: 10px; object-fit: cover;" onclick="openLightbox(this.src)" />
+          <img src="FLS_MF_26_3.jpeg" alt="Technické detaily" class="zoomable-img" style="width: 19vw; height: 19vw; border-radius: 10px; object-fit: cover;" onclick="openLightbox(this.src)" />
+          <img src="FLS_MF_26_4.jpeg" alt="Konstrukce robota" class="zoomable-img" style="width: 19vw; height: 19vw; border-radius: 10px; object-fit: cover;" onclick="openLightbox(this.src)" />
         </div>
 
-        <img src="ano_robot.jpeg" alt="Bojový robot Ano" style="width: 100%; aspect-ratio: 16/9; border-radius: 10px; object-fit: cover;" />
-        
+        <img src="ano_robot.jpeg" alt="Bojový robot Ano" class="zoomable-img" style="width: 100%; aspect-ratio: 16/9; border-radius: 10px; object-fit: cover;" onclick="openLightbox(this.src)" />
       </div>
     </article>
+
+    <div id="lightbox" class="lightbox-overlay" onclick="closeLightbox()">
+      <img id="lightbox-img" src="" alt="Zvětšený náhled" />
+    </div>
 
     <div class="separator-full"></div>
     <div class="botnik">
@@ -77,5 +79,7 @@
         © 2025 - 2026 VLČR — Vzdělaný lid České republiky
       </footer>
     </div>
+
+    <script src="fotky.js"></script>
   </body>
 </html>
