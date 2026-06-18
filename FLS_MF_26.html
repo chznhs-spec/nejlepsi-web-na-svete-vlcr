@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="cs">
+  <head>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7553703629533488"
+     crossorigin="anonymous"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bitva robotů na Maker Faire | VLČR</title>
+    <link rel="icon" type="image/png" href="logo_VLCR.png" />
+    <link rel="stylesheet" href="styles.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <section class="menu">
+      <a href="index.html" class="horizontal-flex" style="justify-content: flex-start">
+        <img src="logo_VLCR.png" alt="Logo VLČR" class="logo" />
+        <p class="logo-placeholder">Vzdělaný lid České republiky</p>
+      </a>
+      <section class="menu-text">
+        <a href="projekt.html" class="menu-item">Projekty</a>
+        <a href="novinki.html" class="menu-item">Novinky</a>
+        <a href="nastym.html" class="menu-item">Náš tým</a>
+        <a href="kontakt.html" class="menu-item">Kontakt</a>
+      </section>
+    </section>
+
+    <article class="novinka" style="margin-top: 130px; display: flex; flex-direction: column; align-items: center;">
+      <h2 style="font-family: 'Trebuchet MS', sans-serif; text-align: center;">
+        Bitva robotů na Maker Faire
+      </h2>
+      <p class="datum">14. 05. 2026</p>
+
+      <div class="container" style="width: 60vw;">
+        <p style="font-family: 'Times New Roman', Times, serif">
+          Zakládající členové studentské iniciativy VLČR Lukáš Horák a Robin Josef Šafařík se zúčastnili napínavého turnaje bojových robotů Battlebots, který se konal v rámci festivalu Maker Faire v Praze pod hlavičkou organizace FLS Battlebots. Na startovní pole nasadili svůj vlastní stroj s výstižným názvem „Ano“. Tento bojový robot vsadil na netradiční a agresivní konstrukci v podobě plechové krychle, jejíž pojezdová kola tvořily kotouče z cirkulárky.
+        </p>
+
+        <p style="font-family: 'Times New Roman', Times, serif">
+          Rozhodnutí zúčastnit se turnaje bylo spontánní a padlo pouhý týden před samotným startem. Členové týmu tak museli bleskově shromáždit veškeré dostupné součástky a okamžitě se pustit do práce. Původní záměr ovládat robota bezdrátově přes Wi-Fi pomocí chytrého telefonu však těsně před závodem zhatila technická závada – kvůli selhání stabilizátoru napětí AMS1117 došlo ke spálení obou mikrokontrolérů ESP32.
+        </p>
+
+        <p style="font-family: 'Times New Roman', Times, serif">
+          Tým proto musel pod časovým tlakem okamžitě improvizovat. Jako nouzové řešení zvolili platformu Arduino Nano, IR přijímač a klasický televizní ovladač. Výsledkem byl sice vizuálně složitý spletenec drátů, ale plně funkční a extrémně originální systém ovládání.
+        </p>
+
+        <p style="font-family: 'Times New Roman', Times, serif">
+          Právě schopnost reagovat na nečekané krizové situace byla pro mladé konstruktéry největším přínosem celé akce. „Náš tým si vyzkoušel pracovat v naprosté nouzi. Jedna věc je, když má člověk k dispozici všechny potřebné součástky a dostatek času. Pod tlakem se však člověk naučí improvizovat a obrovským způsobem si tím rozvíjí logické myšlení,“ ohlíží se za náročným vývojem Robin Josef Šafařík.
+        </p>
+
+        <p style="font-family: 'Times New Roman', Times, serif">
+          I když robot „Ano“ kvůli technickým limitům neobsadil přední příčky a turnaj neskončil medailovým úspěchem, pro VLČR šlo o mimořádně vydařenou akci. Členové týmu si odnesli cenné zkušenosti s hardwarovým inženýrstvím v polních podmínkách, skvěle se bavili a navázali kontakty s komunitou dalších technologických nadšenců. Ukázalo se, že kreativita a odhodlání dokážou překonat i ty největší technické překážky.
+        </p>
+      </div>
+
+      <div style="width: 60vw; margin-top: 20px; margin-bottom: 50px;">
+        <div style="display: flex; justify-content: space-between; gap: 1.5vw; margin-bottom: 1.5vw;">
+          <img src="FLS_MF_26_2.jpeg" alt="Atmosféra turnaje" class="zoomable-img" style="width: 19vw; height: 19vw; border-radius: 10px; object-fit: cover;" onclick="openLightbox(this.src)" />
+          <img src="FLS_MF_26_3.jpeg" alt="Technické detaily" class="zoomable-img" style="width: 19vw; height: 19vw; border-radius: 10px; object-fit: cover;" onclick="openLightbox(this.src)" />
+          <img src="FLS_MF_26_4.jpeg" alt="Konstrukce robota" class="zoomable-img" style="width: 19vw; height: 19vw; border-radius: 10px; object-fit: cover;" onclick="openLightbox(this.src)" />
+        </div>
+
+        <img src="ano_robot.jpeg" alt="Bojový robot Ano" class="zoomable-img" style="width: 100%; aspect-ratio: 16/9; border-radius: 10px; object-fit: cover;" onclick="openLightbox(this.src)" />
+      </div>
+    </article>
+
+    <div id="lightbox" class="lightbox-overlay" onclick="closeLightbox()">
+      <img id="lightbox-img" src="" alt="Zvětšený náhled" />
+    </div>
+
+    <div class="separator-full"></div>
+    <div class="botnik">
+      <footer class="botnik">
+        © 2025 - 2026 VLČR — Vzdělaný lid České republiky
+      </footer>
+    </div>
+
+    <script src="fotky.js"></script>
+  </body>
+</html>
