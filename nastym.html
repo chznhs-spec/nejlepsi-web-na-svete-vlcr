@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="cs">
   <head>
@@ -335,4 +336,343 @@
       © 2025 - 2026 VLČR — Vzdělaný lid České republiky
     </footer>
   </body>
+=======
+<!DOCTYPE html>
+<html lang="cs">
+  <head>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7553703629533488"
+     crossorigin="anonymous"></script>
+    <meta name="google-adsense-account" content="ca-pub-7553703629533488">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Náš tým | VLČR</title>
+    <link rel="icon" type="image/png" href="logo_VLCR.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Roboto:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <link rel="stylesheet" href="styles.css" />
+
+  <style>
+    /* 1. CENTROVÁNÍ OBSAHU */
+    .content {
+      padding-top: 140px;
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Toto vycentruje nadpis a separator */
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    /* 2. OPRAVA MŘÍŽKY - Vycentrování na střed */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      width: 90%;
+      max-width: 1200px;
+      margin: 40px auto 100px auto; /* 'auto' na stranách vycentruje celou mřížku */
+      justify-content: center;
+    }
+
+    /* 3. OPRAVA FOTEK - Aby nebyly protáhlé */
+    .team-image-box {
+      width: 100%;
+      height: 350px; /* Zde můžeš upravit výšku, jakou chceš aby box měl */
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #eee;
+    }
+
+    .team-photo {
+      width: 100%;
+      height: 100%;
+      /* KLÍČOVÉ: object-fit zajistí, že se fotka neroztáhne, ale vyplní prostor */
+      object-fit: cover;
+      object-position: center; /* Fotka se centruje na střed (neusekne hlavu, pokud je tam místo) */
+      transition: transform 0.5s ease;
+    }
+
+    /* 4. ZBYTEK KARET */
+    .team-card {
+      background: white;
+      border-radius: 20px;
+      none; /* Zrušení případných pevných šířek z minula */
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s ease;
+    }
+
+    .team-card:hover { transform: translateY(-10px); }
+    .team-card:hover .team-photo { transform: scale(1.05); }
+
+    .team-info {
+      padding: 25px;
+      text-align: center; /* Vycentruje jméno a text uvnitř karty */
+    }
+
+    .team-desc {
+      text-align: center; /* Nebo 'justify', pokud chceš blok */
+      font-family: 'Manrope', sans-serif;
+      margin-top: 15px;
+    }
+
+    /* 5. MOBILNÍ VERZE */
+    @media (max-width: 768px) {
+      .content { padding-top: 40px; }
+
+      .team-grid {
+        grid-template-columns: 1fr;
+        width: 85%; /* Na mobilu trochu užší, aby to vypadalo lépe */
+      }
+
+      .team-image-box {
+          height: 300px; /* Menší výška fotky na mobilu */
+      }
+
+      h1 { font-size: 2.5rem !important; }
+    }
+  </style>
+  <body>
+    <section class="menu">
+      <a
+        href="index.html"
+        class="horizontal-flex"
+        style="justify-content: flex-start; align-items: flex-start"
+      >
+        <img src="logo_VLCR.png" alt="Logo VLČR" class="logo" />
+        <p class="logo-placeholder">Vzdělaný lid České republiky</p>
+      </a>
+      <section class="menu-text">
+        <a href="projekt.html" class="menu-item">Projekty</a>
+        <a href="novinki.html" class="menu-item">Novinky</a>
+        <a href="nastym.html" class="menu-item">Náš tým</a>
+        <a href="kontakt.html" class="menu-item">Kontakt</a>
+      </section>
+    </section>
+
+    <main class="content">
+      <h1>Náš tým</h1>
+      <div class="separator"></div>
+      <div class="team-grid">
+               <div class="team-card">
+          <div class="team-image-box">
+            <img
+              src="https://loremflickr.com/800/600/technology"
+              alt="Technologie"
+            />
+          </div>
+          <div class="team-info">
+            <h2>Robin Josef Šafařík</h2>
+            <p class="p-elektro">Robotika, elektronika, design</p>
+            <p class="team-desc">
+              Nadšenec do technologií a inovací, který rád objevuje nové nápady
+              a přivádí je k životu.
+            </p>
+            <div class="team-contacts">
+              <div class="contact-line">
+                <span>📧</span>
+                <a href="mailto:novak@vlcr.cz">robinjos.vlcr@gmail.com</a>
+              </div>
+              <div class="contact-line">
+                <span>📞</span> <a href="tel:+420123456789">+420 775 199 954</a>
+              </div>
+              <div class="contact-line">
+                <span>🔗</span>
+                <a href="https://robinsafarik.cz/" target="_blank"
+                  >robinsafarik.cz</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="team-card">
+          <div class="team-image-box">
+            <img src="blba-fotka.jpeg" alt="Lukas Horak" class="team-photo" />
+          </div>
+          <div class="team-info">
+            <h2>Lukáš Horák</h2>
+            <p class="p-elektro">Elektrotechnika, Fyzika, jaderná Energetika</p>
+            <p class="team-desc">
+              Horák se dlouhodobě věnuje fyzice se zaměřením na jadernou
+              energetiku a fungování jaderných elektráren.
+            </p>
+            <div class="team-contacts">
+              <div class="contact-line">
+                <span>📧</span>
+                <a href="mailto:l.horak.vlcr@gmail.com"
+                  >l.horak.vlcr@gmail.com</a
+                >
+              </div>
+              <div class="contact-line">
+                <span>📞</span> <a href="tel:+420732120118">+420 721 120 118</a>
+              </div>
+              <div class="contact-line">
+                <span>🔗</span>
+                <a
+                  href="https://www.linkedin.com/in/luk%C3%A1%C5%A1-hor%C3%A1k-838529361/"
+                  target="_blank"
+                  >LinkedIn</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="team-image-box">
+            <img src="haubert.jpeg" alt="Jakub Haubert" class="team-photo" />
+          </div>
+          <div class="team-info">
+            <h2>Jakub Haubert</h2>
+            <p class="p-elektro">Elektrotechnika, informatika, Ekonomika</p>
+            <p class="team-desc">
+              Od elektroniky přes informatiku až po ekonomiku a akcie, Haubert je všestranný člen týmu s širokým záběrem zájmů a dovedností.
+            </p>
+            <div class="team-contacts">
+              <div class="contact-line">
+                <span>📧</span> <a href="mailto:haubert.jakub@jak6.cz">haubert.jakub@jak6.cz</a>
+              </div>
+              <div class="contact-line">
+                <span></span> <a href="tel:+420602371484"></a>
+              </div>
+              <div class="contact-line">
+                <span></span> <a href="#" target="_blank"></a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="team-image-box">
+            <img src="kavka.jpeg" alt="Vojtěch Kavka" class="team-photo" />
+          </div>
+          <div class="team-info">
+            <h2>Vojtěch Kavka</h2>
+            <p class="p-elektro">Elektrotechnika a Robotika</p>
+            <p class="team-desc">
+              Zájmy v elektroctechniku a robotiku chci proměňovat ve skutečné projekty. Jsem otevřen k poznávání nových věcí. Moto - Když nezkusíš, nevíš.
+            </p>
+            <div class="team-contacts">
+              <div class="contact-line">
+                <span>📧</span> <a href="mailto:albrecht.vlcr@gmail.com">albrecht.vlcr@gmail.com</a>
+              </div>
+              <div class="contact-line">
+                <span>📞</span> <a href="tel:+420737584577">+420 737 584 577</a>
+              </div>
+              <div class="contact-line">
+                <span></span> <a href="#" target="_blank"></a>
+              </div>
+            </div>
+          </div>
+        </div>
+                <div class="team-card">
+          <div class="team-image-box">
+            <img src="ondra.jpeg" alt="Ondřej Kučera" class="team-photo" />
+          </div>
+          <div class="team-info">
+            <h2>Ondřej Pospíšil</h2>
+            <p class="p-elektro">Fyzika, chemie, medicína</p>
+            <p class="team-desc">
+              Matematik, chemik a teoretický fyzik, který má také velmi rozsáhlé znalosti biologie, medicíny a farmacie. Je zapálený do vědy,
+              inovací a otevřený novým nápadům.
+            </p>
+            <div class="team-contacts">
+              <div class="contact-line">
+                <span>📧</span>
+                <a href="mailto:on.minec69@gmail.com">on.minec69@gmail.com</a>
+              </div>
+              <div class="contact-line">
+                <span></span> <a href="tel:+420284016111"></a>
+              </div>
+              <div class="contact-line">
+                <span>🔗</span> <a href="https://www.nasepohadky.cz/o-hloupem-honzovi/c749" target="_blank">Web o mně</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="team-image-box">
+            <img src="unnamed.jpeg" alt="Hugo Albrecht" class="team-photo" />
+          </div>
+          <div class="team-info">
+            <h2>Hugo Albrecht</h2>
+            <p class="p-elektro">Chemie a informatika</p>
+            <p class="team-desc">
+              Začínající elektrotechnik se základní znalostí fyziky, aktivní
+              pracovník i žák ZŠ, otevřený dotazům hlavně z chemie.
+            </p>
+            <div class="team-contacts">
+              <div class="contact-line">
+                <span>📧</span> <a href="mailto:albrecht.vlcr@gmail.com">albrecht.vlcr@gmail.com</a>
+              </div>
+              <div class="contact-line">
+                <span>📞</span> <a href="tel:+420737584577">+420 737 584 577</a>
+              </div>
+              <div class="contact-line">
+                <span></span> <a href="#" target="_blank"></a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="team-image-box">
+            <img src="adam.jpg" alt="Adam Novák" class="team-photo" />
+          </div>
+          <div class="team-info">
+            <h2>Adam Novák</h2>
+            <p class="p-elektro">Přírodní vědy</p>
+            <p class="team-desc">
+              Student oboru Přírodní vědy, který se zajímá o široké spektrum témat, chemie, biologie, fyzika, ale i vesmír.
+            </p>
+            <div class="team-contacts">
+              <div class="contact-line">
+                <span>📧</span> <a href="mailto:ADAM">ADAM</a>
+              </div>
+              <div class="contact-line">
+                <span>📞</span> <a href="tel:+420777445997">+420 777 445 997</a>
+              </div>
+              <div class="contact-line">
+                <span></span> <a href="#" target="_blank"></a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="team-image-box">
+            <img src="hadam.jpeg" alt="Vilém Pellár" class="team-photo" />
+          </div>
+          <div class="team-info">
+            <h2>Vilém Pellár</h2>
+            <p class="p-elektro">Učení páni zkušení</p>
+            <p class="team-desc">
+              Já rád bych vám teď podotknul, nikdo z vás nemá tušení, co je to
+              VLČR.
+            </p>
+            <div class="team-contacts">
+              <div class="contact-line">
+                <span>📧</span> <a href="mailto:pellarvullem@gmail.com">pellarvullem@gmail.com</a>
+              </div>
+              <div class="contact-line">
+                <span>📞</span> <a href="tel:+420774544158">+420 774 544 158</a>
+              </div>
+              <div class="contact-line">
+                <span></span> <a href="#" target="_blank"></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="botnik">
+      © 2025 - 2026 VLČR — Vzdělaný lid České republiky
+    </footer>
+  </body>
+>>>>>>> 6c519aef996cd3483f1e03b751f3309004d8d79a
 </html>
