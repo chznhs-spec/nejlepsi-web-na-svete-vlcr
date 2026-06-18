@@ -15,3 +15,4 @@ function closeLightbox() {
   if (lightbox) {
     lightbox.style.display = 'none';
   }
+}
